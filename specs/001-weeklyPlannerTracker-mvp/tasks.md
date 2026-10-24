@@ -14,15 +14,15 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 0: Preparación
 
-- [ ] **T-01 · Proyecto del servidor** (20 min) · RF: base de todos
+- [x] **T-01 · Proyecto del servidor** (20 min) · RF: base de todos
   Depende de: —
   Hecho cuando: existe `server/` con su `package.json` (módulos ES, Node 20 o superior), las carpetas de la sección 1 del plan, y `npm test` en `server/` termina sin error ejecutando `node --test`.
 
-- [ ] **T-02 · Proyecto del cliente** (25 min) · RF: base de RF-1 a RF-8
+- [x] **T-02 · Proyecto del cliente** (25 min) · RF: base de RF-1 a RF-8
   Depende de: T-01
   Hecho cuando: existe `client/` con React y Vite; `npm run dev` abre una página con el texto "Weekly Planner Tracker" y las peticiones a `/api` se redirigen al puerto del servidor (comprobado con una petición a una ruta inexistente que llega al servidor).
 
-- [ ] **T-03 · README y configuración** (20 min) · RF: principio 1 y 5
+- [x] **T-03 · README y configuración** (20 min) · RF: principio 1 y 5
   Depende de: T-01, T-02
   Hecho cuando: el README lista cada dependencia con su justificación (tabla de la sección 8 del plan), explica cómo arrancar servidor y cliente, y existe un `.env.example` con la variable de la dirección de MongoDB sin ningún valor secreto; el archivo `.env` real está excluido del repositorio.
 
