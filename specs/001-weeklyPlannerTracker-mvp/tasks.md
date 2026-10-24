@@ -50,7 +50,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-06, T-07
   Hecho cuando: los tests pasan con: entrada válida → `{ ok: true, value }` con nombre y categoría normalizados y `startMinute`/`endMinute`; nombre vacío y fin igual al inicio a la vez → ambos errores en una sola respuesta; cada error trae `code` y `fields`.
 
-- [ ] **T-09 · Solapamiento** (25 min) · RF-4.1, RF-4.2, RF-4.3
+- [x] **T-09 · Solapamiento** (25 min) · RF-4.1, RF-4.2, RF-4.3
   Depende de: T-01
   Hecho cuando: los tests de `findConflicts` pasan con: solape parcial; actividad contenida; actividad que contiene a otra; contigua (una termina cuando empieza la otra) sin choque; choque con dos actividades devuelve las dos; el día se filtra antes, de modo que actividades de otro día nunca chocan.
 
