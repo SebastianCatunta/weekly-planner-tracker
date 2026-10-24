@@ -54,7 +54,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-01
   Hecho cuando: los tests de `findConflicts` pasan con: solape parcial; actividad contenida; actividad que contiene a otra; contigua (una termina cuando empieza la otra) sin choque; choque con dos actividades devuelve las dos; el día se filtra antes, de modo que actividades de otro día nunca chocan.
 
-- [ ] **T-10 · Duplicado idéntico** (20 min) · RF-4.4
+- [x] **T-10 · Duplicado idéntico** (20 min) · RF-4.4
   Depende de: T-09
   Hecho cuando: los tests pasan con: misma nombre, categoría, día, inicio y fin → `isDuplicate: true`; mismo nombre en franja distinta que no se solapa → sin conflicto; mismo horario con otro nombre → conflicto pero `isDuplicate: false`; comparación exacta: "Estudio" y "estudio" son categorías distintas.
 
