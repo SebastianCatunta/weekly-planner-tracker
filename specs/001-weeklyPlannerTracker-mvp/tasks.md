@@ -14,7 +14,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 0: Preparación
 
-- [ ] **T-01 · Proyecto del servidor** (20 min) · RF: base de todos
+- [x] **T-01 · Proyecto del servidor** (20 min) · RF: base de todos
   Depende de: —
   Hecho cuando: existe `server/` con su `package.json` (módulos ES, Node 20 o superior), las carpetas de la sección 1 del plan, y `npm test` en `server/` termina sin error ejecutando `node --test`.
 
