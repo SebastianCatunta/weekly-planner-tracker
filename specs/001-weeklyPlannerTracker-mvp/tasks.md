@@ -34,7 +34,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-01
   Hecho cuando: `node --test` pasa con estos casos: "18:00" → 1080; "23:59" → 1439; "00:00" como inicio → 0; "00:00" como fin → 1440; "25:00", "12:60", "" y "abc" son inválidos; 1440 se muestra "00:00" y 1080 se muestra "18:00".
 
-- [ ] **T-05 · `normalizeText`** (20 min) · RF-3.1
+- [x] **T-05 · `normalizeText`** (20 min) · RF-3.1
   Depende de: T-01
   Hecho cuando: los tests pasan con: espacios al inicio y al final eliminados; "Estudiar    inglés" → "Estudiar inglés"; solo espacios → texto vacío; tildes y ñ intactas.
 
