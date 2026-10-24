@@ -38,7 +38,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-01
   Hecho cuando: los tests pasan con: espacios al inicio y al final eliminados; "Estudiar    inglés" → "Estudiar inglés"; solo espacios → texto vacío; tildes y ñ intactas.
 
-- [ ] **T-06 · Validación de nombre y categoría** (30 min) · RF-3.2, RF-3.6, RF-3.8
+- [x] **T-06 · Validación de nombre y categoría** (30 min) · RF-3.2, RF-3.6, RF-3.8
   Depende de: T-05
   Hecho cuando: los tests pasan con: vacío tras normalizar → `NAME_REQUIRED` / `CATEGORY_REQUIRED`; 30 caracteres aceptado y 31 rechazado con `*_TOO_LONG`; un texto de 32 caracteres que queda en 30 tras normalizar se acepta; `<`, `>`, `{`, `}`, `$`, `;`, `'`, `"`, acento grave, `--`, `/*` y `*/` → `TEXT_NOT_ALLOWED`; emojis, tildes, ñ, dígitos y signos normales aceptados. Cada error indica su campo en `fields`.
 
