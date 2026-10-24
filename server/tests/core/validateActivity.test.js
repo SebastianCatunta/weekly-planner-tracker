@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { validateTextField, validateSchedule } from "../../src/core/validateActivity.js";
+import { validateTextField, validateSchedule, validateActivity } from "../../src/core/validateActivity.js";
 
 // ---- Name and category (T-06) ----
 
@@ -130,4 +130,61 @@ test("001/RF-3.10 validateSchedule reports all errors together", () => {
     "TIME_INVALID",
     "END_REQUIRED",
   ]);
+});
+
+// ---- Whole activity (T-08) ----
+
+test("001/RF-3.1 validateActivity returns ok with the normalized value and minutes", () => {
+  const result = validateActivity({
+    name: "  Estudiar   inglés ",
+    category: " Estudio ",
+    day: "monday",
+    start: "18:00",
+    end: "20:00",
+  });
+  assert.deepEqual(result, {
+    ok: true,
+    value: { name: "Estudiar inglés", category: "Estudio", day: "monday", startMinute: 1080, endMinute: 1200 },
+  });
+});
+
+test("001/RF-3.10 validateActivity returns an empty name and an end equal to the start together", () => {
+  const result = validateActivity({ name: "   ", category: "Estudio", day: "monday", start: "10:00", end: "10:00" });
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.errors, [
+    { code: "NAME_REQUIRED", fields: ["name"] },
+    { code: "END_NOT_AFTER_START", fields: ["end"] },
+  ]);
+});
+
+test("001/RF-3.10 validateActivity reports every invalid field of an empty input", () => {
+  const result = validateActivity({});
+  assert.equal(result.ok, false);
+  assert.deepEqual(codesOf(result), [
+    "NAME_REQUIRED",
+    "CATEGORY_REQUIRED",
+    "DAY_REQUIRED",
+    "START_REQUIRED",
+    "END_REQUIRED",
+  ]);
+});
+
+test("001/RF-3.11 validateActivity gives every error a code and the fields to clear", () => {
+  const result = validateActivity({ name: "<b>", category: "x".repeat(31), day: "nope", start: "99:00", end: "10:00" });
+  assert.equal(result.ok, false);
+  for (const error of result.errors) {
+    assert.equal(typeof error.code, "string");
+    assert.ok(Array.isArray(error.fields) && error.fields.length > 0);
+  }
+  assert.deepEqual(result.errors, [
+    { code: "TEXT_NOT_ALLOWED", fields: ["name"] },
+    { code: "CATEGORY_TOO_LONG", fields: ["category"] },
+    { code: "DAY_INVALID", fields: ["day"] },
+    { code: "TIME_INVALID", fields: ["start"] },
+  ]);
+});
+
+test("001/RF-3.9 validateActivity treats a missing input as empty", () => {
+  assert.equal(validateActivity(undefined).ok, false);
+  assert.equal(validateActivity(null).errors.length, 5);
 });

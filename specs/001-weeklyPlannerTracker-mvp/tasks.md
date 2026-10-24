@@ -46,7 +46,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-04
   Hecho cuando: los tests pasan con: día, inicio o fin ausentes → `DAY_REQUIRED` / `START_REQUIRED` / `END_REQUIRED`; día fuera de las 7 claves → `DAY_INVALID`; hora mal formada → `TIME_INVALID`; fin igual al inicio y fin anterior al inicio → `END_NOT_AFTER_START`; 23:00–01:00 rechazada; 23:59–00:00, 00:00–23:59 y actividad de 1 minuto aceptadas; 00:00–00:00 aceptada como día completo.
 
-- [ ] **T-08 · `validateActivity` completo** (25 min) · RF-3.10, RF-3.11
+- [x] **T-08 · `validateActivity` completo** (25 min) · RF-3.10, RF-3.11
   Depende de: T-06, T-07
   Hecho cuando: los tests pasan con: entrada válida → `{ ok: true, value }` con nombre y categoría normalizados y `startMinute`/`endMinute`; nombre vacío y fin igual al inicio a la vez → ambos errores en una sola respuesta; cada error trae `code` y `fields`.
 

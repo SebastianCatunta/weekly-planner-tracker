@@ -56,3 +56,17 @@ export function validateSchedule(input) {
   if (errors.length > 0) return { errors };
   return { value: { day, startMinute, endMinute }, errors };
 }
+
+// 001/RF-3.1, 001/RF-3.9, 001/RF-3.10, 001/RF-3.11
+export function validateActivity(input) {
+  const source = input ?? {};
+  const name = validateTextField("name", source.name);
+  const category = validateTextField("category", source.category);
+  const schedule = validateSchedule(source);
+
+  // All errors together, never only the first one (RF-3.10).
+  const errors = [...name.errors, ...category.errors, ...schedule.errors];
+  if (errors.length > 0) return { ok: false, errors };
+
+  return { ok: true, value: { name: name.value, category: category.value, ...schedule.value } };
+}
