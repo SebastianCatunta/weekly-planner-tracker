@@ -18,7 +18,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: —
   Hecho cuando: existe `server/` con su `package.json` (módulos ES, Node 20 o superior), las carpetas de la sección 1 del plan, y `npm test` en `server/` termina sin error ejecutando `node --test`.
 
-- [ ] **T-02 · Proyecto del cliente** (25 min) · RF: base de RF-1 a RF-8
+- [x] **T-02 · Proyecto del cliente** (25 min) · RF: base de RF-1 a RF-8
   Depende de: T-01
   Hecho cuando: existe `client/` con React y Vite; `npm run dev` abre una página con el texto "Weekly Planner Tracker" y las peticiones a `/api` se redirigen al puerto del servidor (comprobado con una petición a una ruta inexistente que llega al servidor).
 
