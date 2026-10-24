@@ -42,7 +42,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-05
   Hecho cuando: los tests pasan con: vacío tras normalizar → `NAME_REQUIRED` / `CATEGORY_REQUIRED`; 30 caracteres aceptado y 31 rechazado con `*_TOO_LONG`; un texto de 32 caracteres que queda en 30 tras normalizar se acepta; `<`, `>`, `{`, `}`, `$`, `;`, `'`, `"`, acento grave, `--`, `/*` y `*/` → `TEXT_NOT_ALLOWED`; emojis, tildes, ñ, dígitos y signos normales aceptados. Cada error indica su campo en `fields`.
 
-- [ ] **T-07 · Validación de día y horas** (30 min) · RF-3.3, RF-3.5, RF-3.7
+- [x] **T-07 · Validación de día y horas** (30 min) · RF-3.3, RF-3.5, RF-3.7
   Depende de: T-04
   Hecho cuando: los tests pasan con: día, inicio o fin ausentes → `DAY_REQUIRED` / `START_REQUIRED` / `END_REQUIRED`; día fuera de las 7 claves → `DAY_INVALID`; hora mal formada → `TIME_INVALID`; fin igual al inicio y fin anterior al inicio → `END_NOT_AFTER_START`; 23:00–01:00 rechazada; 23:59–00:00, 00:00–23:59 y actividad de 1 minuto aceptadas; 00:00–00:00 aceptada como día completo.
 
