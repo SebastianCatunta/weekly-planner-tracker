@@ -30,7 +30,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 1: Lógica de negocio (`server/src/core/`)
 
-- [ ] **T-04 · `timeUtils`** (30 min) · RF-3.4, RF-3.7
+- [x] **T-04 · `timeUtils`** (30 min) · RF-3.4, RF-3.7
   Depende de: T-01
   Hecho cuando: `node --test` pasa con estos casos: "18:00" → 1080; "23:59" → 1439; "00:00" como inicio → 0; "00:00" como fin → 1440; "25:00", "12:60", "" y "abc" son inválidos; 1440 se muestra "00:00" y 1080 se muestra "18:00".
 
