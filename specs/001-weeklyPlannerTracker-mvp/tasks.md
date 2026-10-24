@@ -58,7 +58,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-09
   Hecho cuando: los tests pasan con: misma nombre, categoría, día, inicio y fin → `isDuplicate: true`; mismo nombre en franja distinta que no se solapa → sin conflicto; mismo horario con otro nombre → conflicto pero `isDuplicate: false`; comparación exacta: "Estudio" y "estudio" son categorías distintas.
 
-- [ ] **T-11 · Cierre de `core`** (20 min) · principios 2, 3, 4
+- [x] **T-11 · Cierre de `core`** (20 min) · principios 2, 3, 4
   Depende de: T-08, T-10
   Hecho cuando: `core/index.js` exporta las funciones públicas; toda función de `core` tiene su comentario `// 001/RF-x`; una búsqueda de `express`, `mongodb`, `document`, `window` y `localStorage` dentro de `server/src/core/` no devuelve resultados; `npm test` en verde.
 
