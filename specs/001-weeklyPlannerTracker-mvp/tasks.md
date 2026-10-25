@@ -66,7 +66,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 2: Base de datos
 
-- [ ] **T-12 · Conexión a MongoDB** (25 min) · RF-7.1, RF-6.1
+- [x] **T-12 · Conexión a MongoDB** (25 min) · RF-7.1, RF-6.1
   Depende de: T-03
   Hecho cuando: con MongoDB encendido el servidor conecta usando la variable de entorno; con MongoDB apagado o dirección errónea la conexión falla con un error propio `DatabaseUnavailableError`, sin imprimir la dirección de conexión en el mensaje.
 
