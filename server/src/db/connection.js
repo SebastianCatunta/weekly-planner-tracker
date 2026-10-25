@@ -2,14 +2,19 @@ import { MongoClient } from "mongodb";
 import { DatabaseUnavailableError } from "./errors.js";
 
 const DEFAULT_TIMEOUT_MS = 5000;
-const DB_NAME = "weekly_planner";
+const DEFAULT_DB_NAME = "weekly_planner";
 
 let client = null;
+let dbName = DEFAULT_DB_NAME;
 
 // 001/RF-7.1
 // Connects once and reuses the client. Every failure becomes DatabaseUnavailableError, so the
 // connection string (which can hold credentials) never reaches a message or a log.
-export async function connect({ uri = process.env.MONGODB_URI, timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
+export async function connect({
+  uri = process.env.MONGODB_URI,
+  timeoutMs = DEFAULT_TIMEOUT_MS,
+  database = DEFAULT_DB_NAME,
+} = {}) {
   if (client) return getDb();
   if (!uri) throw new DatabaseUnavailableError();
 
@@ -17,18 +22,19 @@ export async function connect({ uri = process.env.MONGODB_URI, timeoutMs = DEFAU
   try {
     candidate = new MongoClient(uri, { serverSelectionTimeoutMS: timeoutMs });
     await candidate.connect();
-    await candidate.db(DB_NAME).command({ ping: 1 });
+    await candidate.db(database).command({ ping: 1 });
   } catch {
     await candidate?.close().catch(() => {});
     throw new DatabaseUnavailableError();
   }
   client = candidate;
+  dbName = database;
   return getDb();
 }
 
 export function getDb() {
   if (!client) throw new DatabaseUnavailableError();
-  return client.db(DB_NAME);
+  return client.db(dbName);
 }
 
 export async function close() {
