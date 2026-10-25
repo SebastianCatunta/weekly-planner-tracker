@@ -30,35 +30,35 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 1: Lógica de negocio (`server/src/core/`)
 
-- [ ] **T-04 · `timeUtils`** (30 min) · RF-3.4, RF-3.7
+- [x] **T-04 · `timeUtils`** (30 min) · RF-3.4, RF-3.7
   Depende de: T-01
   Hecho cuando: `node --test` pasa con estos casos: "18:00" → 1080; "23:59" → 1439; "00:00" como inicio → 0; "00:00" como fin → 1440; "25:00", "12:60", "" y "abc" son inválidos; 1440 se muestra "00:00" y 1080 se muestra "18:00".
 
-- [ ] **T-05 · `normalizeText`** (20 min) · RF-3.1
+- [x] **T-05 · `normalizeText`** (20 min) · RF-3.1
   Depende de: T-01
   Hecho cuando: los tests pasan con: espacios al inicio y al final eliminados; "Estudiar    inglés" → "Estudiar inglés"; solo espacios → texto vacío; tildes y ñ intactas.
 
-- [ ] **T-06 · Validación de nombre y categoría** (30 min) · RF-3.2, RF-3.6, RF-3.8
+- [x] **T-06 · Validación de nombre y categoría** (30 min) · RF-3.2, RF-3.6, RF-3.8
   Depende de: T-05
   Hecho cuando: los tests pasan con: vacío tras normalizar → `NAME_REQUIRED` / `CATEGORY_REQUIRED`; 30 caracteres aceptado y 31 rechazado con `*_TOO_LONG`; un texto de 32 caracteres que queda en 30 tras normalizar se acepta; `<`, `>`, `{`, `}`, `$`, `;`, `'`, `"`, acento grave, `--`, `/*` y `*/` → `TEXT_NOT_ALLOWED`; emojis, tildes, ñ, dígitos y signos normales aceptados. Cada error indica su campo en `fields`.
 
-- [ ] **T-07 · Validación de día y horas** (30 min) · RF-3.3, RF-3.5, RF-3.7
+- [x] **T-07 · Validación de día y horas** (30 min) · RF-3.3, RF-3.5, RF-3.7
   Depende de: T-04
   Hecho cuando: los tests pasan con: día, inicio o fin ausentes → `DAY_REQUIRED` / `START_REQUIRED` / `END_REQUIRED`; día fuera de las 7 claves → `DAY_INVALID`; hora mal formada → `TIME_INVALID`; fin igual al inicio y fin anterior al inicio → `END_NOT_AFTER_START`; 23:00–01:00 rechazada; 23:59–00:00, 00:00–23:59 y actividad de 1 minuto aceptadas; 00:00–00:00 aceptada como día completo.
 
-- [ ] **T-08 · `validateActivity` completo** (25 min) · RF-3.10, RF-3.11
+- [x] **T-08 · `validateActivity` completo** (25 min) · RF-3.10, RF-3.11
   Depende de: T-06, T-07
   Hecho cuando: los tests pasan con: entrada válida → `{ ok: true, value }` con nombre y categoría normalizados y `startMinute`/`endMinute`; nombre vacío y fin igual al inicio a la vez → ambos errores en una sola respuesta; cada error trae `code` y `fields`.
 
-- [ ] **T-09 · Solapamiento** (25 min) · RF-4.1, RF-4.2, RF-4.3
+- [x] **T-09 · Solapamiento** (25 min) · RF-4.1, RF-4.2, RF-4.3
   Depende de: T-01
   Hecho cuando: los tests de `findConflicts` pasan con: solape parcial; actividad contenida; actividad que contiene a otra; contigua (una termina cuando empieza la otra) sin choque; choque con dos actividades devuelve las dos; el día se filtra antes, de modo que actividades de otro día nunca chocan.
 
-- [ ] **T-10 · Duplicado idéntico** (20 min) · RF-4.4
+- [x] **T-10 · Duplicado idéntico** (20 min) · RF-4.4
   Depende de: T-09
   Hecho cuando: los tests pasan con: misma nombre, categoría, día, inicio y fin → `isDuplicate: true`; mismo nombre en franja distinta que no se solapa → sin conflicto; mismo horario con otro nombre → conflicto pero `isDuplicate: false`; comparación exacta: "Estudio" y "estudio" son categorías distintas.
 
-- [ ] **T-11 · Cierre de `core`** (20 min) · principios 2, 3, 4
+- [x] **T-11 · Cierre de `core`** (20 min) · principios 2, 3, 4
   Depende de: T-08, T-10
   Hecho cuando: `core/index.js` exporta las funciones públicas; toda función de `core` tiene su comentario `// 001/RF-x`; una búsqueda de `express`, `mongodb`, `document`, `window` y `localStorage` dentro de `server/src/core/` no devuelve resultados; `npm test` en verde.
 
