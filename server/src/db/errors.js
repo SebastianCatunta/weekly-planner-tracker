@@ -6,3 +6,13 @@ export class DatabaseUnavailableError extends Error {
     this.name = "DatabaseUnavailableError";
   }
 }
+
+// 001/RF-7.4
+// A stored activity breaks the rules of core: the database was changed outside the application.
+export class DataCorruptError extends Error {
+  constructor() {
+    super("Stored data is corrupt");
+    this.name = "DataCorruptError";
+    this.code = "DATA_CORRUPT";
+  }
+}

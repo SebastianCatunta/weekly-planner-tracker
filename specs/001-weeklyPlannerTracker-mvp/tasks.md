@@ -74,7 +74,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-12, T-11
   Hecho cuando: `insert` guarda un documento con los campos del plan (sección 2.1: nombre, categoría, `day`, `startMinute`, `endMinute`, `createdAt`), sin campo de usuario ni de semana; `findByDay` devuelve solo las actividades de ese día; el índice `{ day: 1, startMinute: 1 }` existe (comprobado en MongoDB); con MongoDB apagado ambas operaciones lanzan `DatabaseUnavailableError`; las consultas usan solo valores (RNF-9): un valor que contiene `$ne` se busca como texto literal.
 
-- [ ] **T-14 · Repositorio: leer todo, con lectura estricta** (25 min) · RF-6.1, RF-7.4
+- [x] **T-14 · Repositorio: leer todo, con lectura estricta** (25 min) · RF-6.1, RF-7.4
   Depende de: T-13
   Hecho cuando: `findAll` devuelve todas las actividades ordenadas por día y `startMinute`; si se inserta a mano un documento inválido (por ejemplo `endMinute` menor que `startMinute`), `findAll` lanza `DATA_CORRUPT` en lugar de devolver una lista parcial.
 

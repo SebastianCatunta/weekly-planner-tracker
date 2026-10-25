@@ -1,8 +1,14 @@
 import { test, before, after, beforeEach } from "node:test";
 import assert from "node:assert/strict";
 import { connect, close, getDb } from "../../src/db/connection.js";
-import { DatabaseUnavailableError } from "../../src/db/errors.js";
-import { ensureIndexes, insert, findByDay } from "../../src/repositories/activityRepository.js";
+import { DatabaseUnavailableError, DataCorruptError } from "../../src/db/errors.js";
+import {
+  ensureIndexes,
+  insert,
+  findByDay,
+  findAll,
+  parseStoredActivities,
+} from "../../src/repositories/activityRepository.js";
 
 const activity = (overrides = {}) => ({
   name: "Estudiar",
@@ -18,7 +24,51 @@ const activity = (overrides = {}) => ({
 test("insert and findByDay throw DatabaseUnavailableError with MongoDB off", async () => {
   await assert.rejects(insert(activity()), DatabaseUnavailableError);
   await assert.rejects(findByDay("monday"), DatabaseUnavailableError);
+  await assert.rejects(findAll(), DatabaseUnavailableError);
   await assert.rejects(ensureIndexes(), DatabaseUnavailableError);
+});
+
+const storedDoc = (overrides = {}) => ({
+  _id: { toString: () => "1" },
+  createdAt: new Date(),
+  ...activity(),
+  ...overrides,
+});
+
+test("parseStoredActivities orders by day of the week and then by start", () => {
+  const list = parseStoredActivities([
+    storedDoc({ name: "C", day: "sunday", startMinute: 0, endMinute: 60 }),
+    storedDoc({ name: "B", day: "monday", startMinute: 600, endMinute: 660 }),
+    storedDoc({ name: "A", day: "monday", startMinute: 60, endMinute: 120 }),
+    storedDoc({ name: "D", day: "friday", startMinute: 0, endMinute: 1440 }),
+  ]);
+  assert.deepEqual(list.map((a) => a.name), ["A", "B", "D", "C"]);
+});
+
+test("parseStoredActivities throws DATA_CORRUPT for any invalid document", () => {
+  const invalid = [
+    { endMinute: 500, startMinute: 600 },
+    { endMinute: 600, startMinute: 600 },
+    { endMinute: 0 },
+    { endMinute: 1500 },
+    { startMinute: -1 },
+    { startMinute: "600" },
+    { day: "funday" },
+    { name: "" },
+    { name: "x".repeat(31) },
+    { category: 5 },
+  ];
+  for (const overrides of invalid) {
+    assert.throws(
+      () => parseStoredActivities([storedDoc(), storedDoc(overrides)]),
+      (error) => error instanceof DataCorruptError && error.code === "DATA_CORRUPT",
+      JSON.stringify(overrides),
+    );
+  }
+});
+
+test("parseStoredActivities accepts an activity that ends at the end of the day", () => {
+  assert.equal(parseStoredActivities([storedDoc({ startMinute: 1380, endMinute: 1440 })]).length, 1);
 });
 
 // The tests below need a live MongoDB (MONGODB_URI). They use their own throwaway database.
@@ -74,4 +124,17 @@ test("a value containing $ne is searched as literal text", live, async () => {
   assert.deepEqual(await findByDay("$ne"), []);
   assert.deepEqual(await findByDay({ $ne: "monday" }), []);
   assert.equal((await findByDay("monday")).length, 1);
+});
+
+test("findAll returns everything ordered by day and start", live, async () => {
+  await insert(activity({ name: "C", day: "sunday", startMinute: 0, endMinute: 60 }));
+  await insert(activity({ name: "B", startMinute: 600, endMinute: 660 }));
+  await insert(activity({ name: "A", startMinute: 60, endMinute: 120 }));
+  assert.deepEqual((await findAll()).map((a) => a.name), ["A", "B", "C"]);
+});
+
+test("findAll throws DATA_CORRUPT when a document was altered by hand", live, async () => {
+  await insert(activity());
+  await getDb().collection("activities").insertOne({ ...activity(), startMinute: 600, endMinute: 500 });
+  await assert.rejects(findAll(), DataCorruptError);
 });

@@ -1,5 +1,7 @@
 import { ObjectId } from "mongodb";
 import { getDb, toDatabaseError } from "../db/connection.js";
+import { DataCorruptError } from "../db/errors.js";
+import { DAYS, validateActivity, formatMinutes } from "../core/index.js";
 
 const COLLECTION = "activities";
 
@@ -62,4 +64,42 @@ export async function findByDay(day) {
   } catch (error) {
     throw toDatabaseError(error);
   }
+}
+
+// 001/RF-7.4
+// Strict reading: the stored record must pass the same rules core applies on registration.
+// The checks before validateActivity keep wrong types from being turned into valid-looking times.
+function isValidRecord(record) {
+  const { name, category, day, startMinute, endMinute } = record;
+  if (typeof name !== "string" || typeof category !== "string" || typeof day !== "string") return false;
+  if (!Number.isInteger(startMinute) || startMinute < 0 || startMinute > 1439) return false;
+  if (!Number.isInteger(endMinute) || endMinute < 1 || endMinute > 1440) return false;
+  return validateActivity({
+    name,
+    category,
+    day,
+    start: formatMinutes(startMinute),
+    end: formatMinutes(endMinute),
+  }).ok;
+}
+
+// 001/RF-6.1, 001/RF-7.4
+// Orders by day of the week, then start; throws DataCorruptError instead of returning a partial list.
+export function parseStoredActivities(docs) {
+  const records = docs.map(toRecord);
+  if (!records.every(isValidRecord)) throw new DataCorruptError();
+  return records.sort(
+    (a, b) => DAYS.indexOf(a.day) - DAYS.indexOf(b.day) || a.startMinute - b.startMinute,
+  );
+}
+
+// 001/RF-1.1, 001/RF-6.1, 001/RF-7.4
+export async function findAll() {
+  let docs;
+  try {
+    docs = await activities().find({}).toArray();
+  } catch (error) {
+    throw toDatabaseError(error);
+  }
+  return parseStoredActivities(docs);
 }
