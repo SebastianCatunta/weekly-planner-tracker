@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { createApp } from "./app.js";
 import { connect } from "./db/connection.js";
 import * as repository from "./repositories/activityRepository.js";
@@ -10,6 +11,9 @@ import { createEventHub } from "./events/eventHub.js";
 if (existsSync(".env")) process.loadEnvFile(".env");
 
 const PORT = Number(process.env.PORT) || 3001;
+
+// The compiled client (npm run build in client/), served by this same server when it exists.
+const clientDir = resolve(import.meta.dirname, "../../client/dist");
 
 // The server starts even if MongoDB is off: requests then answer 503 DB_UNAVAILABLE, and the
 // database is used again as soon as it is reachable.
@@ -25,6 +29,7 @@ const eventHub = createEventHub();
 const activityService = createActivityService({ repository, eventHub });
 
 createApp({
+  clientDir: existsSync(resolve(clientDir, "index.html")) ? clientDir : null,
   routers: [
     ["/api", createActivitiesRouter(activityService)],
     ["/api", createEventsRouter(eventHub)],

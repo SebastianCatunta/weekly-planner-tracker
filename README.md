@@ -47,7 +47,7 @@ npm install
 npm start
 ```
 
-Si MongoDB est� apagado, el servidor arranca igual y responde 503 `DB_UNAVAILABLE` hasta que vuelva a estar disponible.
+Si MongoDB está apagado, el servidor arranca igual y responde 503 `DB_UNAVAILABLE` hasta que vuelva a estar disponible.
 
 Cliente:
 
@@ -59,6 +59,23 @@ npm run dev
 
 En desarrollo, el cliente reenvía las peticiones `/api` al servidor en el puerto 3001 (ver `client/vite.config.js`).
 
+### Sin el servidor de desarrollo de Vite
+
+Compila el cliente y deja que el servidor lo entregue desde su propia dirección:
+
+```bash
+cd client
+npm install
+npm run build
+
+cd ../server
+npm start
+```
+
+Abre `http://localhost:3001` (o el puerto de `PORT`). Si `client/dist/` no existe, el servidor solo ofrece la API.
+
 ## Tests
 
-Los tests de la lógica de negocio están en `server/tests/core/` y se ejecutan con `npm test` dentro de `server/`.
+Los tests del servidor (lógica de negocio en `server/tests/core/`, servicio, repositorio y API) se ejecutan con `npm test` dentro de `server/`. Los que usan MongoDB real se omiten si `MONGODB_URI` no está definida; para correrlos todos: `node --env-file=.env --test`. Usan una base temporal que se borra al terminar.
+
+Los tests del cliente (mensajes, cliente de la API, estado, componentes renderizados a HTML y geometría de la cuadrícula) se ejecutan con `npm test` dentro de `client/`. No añaden librerías: usan `node --test` y el propio Vite para cargar los componentes.

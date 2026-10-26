@@ -186,7 +186,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-24, T-31
   Hecho cuando: el cliente se suscribe a `/api/events`; con dos pestañas abiertas, registrar en una hace aparecer la actividad en la otra sin recargar; la pestaña que registró no muestra la actividad duplicada (se une por `id`); si se apaga y enciende el servidor, la pestaña vuelve a cargar la lista completa.
 
-- [ ] **T-39 · Servir el cliente desde Express** (20 min) · RF-1.1 (acceso en producción), RNF-5
+- [x] **T-39 · Servir el cliente desde Express** (20 min) · RF-1.1 (acceso en producción), RNF-5
   Depende de: T-38
   Hecho cuando: tras compilar el cliente, el servidor entrega la página en su propia dirección y la aplicación funciona completa sin el servidor de desarrollo de Vite.
 
