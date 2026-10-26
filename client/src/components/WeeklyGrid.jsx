@@ -1,6 +1,7 @@
 import { messages } from "../messages/es.js";
 import { DAYS } from "../utils/days.js";
-import { GRID_HEIGHT_PX, HOURS_PER_DAY, ROW_HEIGHT_PX, hourLabel } from "../utils/gridLayout.js";
+import ActivityBlock from "./ActivityBlock.jsx";
+import { HOURS_PER_DAY, ROW_HEIGHT_PX, gridHeight, hourLabel, layoutDay } from "../utils/gridLayout.js";
 
 const HOURS = Array.from({ length: HOURS_PER_DAY }, (_, hour) => hour);
 
@@ -8,6 +9,11 @@ const HOURS = Array.from({ length: HOURS_PER_DAY }, (_, hour) => hour);
 // 7 columns (Monday to Sunday, day names only) by 24 hour rows of 48 px. The container scrolls.
 // With no activities it shows the empty grid and no help text (RF-1.3).
 export default function WeeklyGrid({ activities = [] }) {
+  const layouts = Object.fromEntries(
+    DAYS.map((day) => [day, layoutDay(activities.filter((activity) => activity.day === day))]),
+  );
+  const height = gridHeight(Object.values(layouts).flat());
+
   return (
     <section className="weekly-grid" aria-label={messages.grid.label}>
       <div className="grid-scroll">
@@ -20,7 +26,7 @@ export default function WeeklyGrid({ activities = [] }) {
           ))}
         </div>
 
-        <div className="grid-body" style={{ height: GRID_HEIGHT_PX }}>
+        <div className="grid-body" style={{ height }}>
           <div className="time-axis">
             {HOURS.map((hour) => (
               <div key={hour} className="hour-label" style={{ height: ROW_HEIGHT_PX }}>
@@ -31,7 +37,11 @@ export default function WeeklyGrid({ activities = [] }) {
           </div>
 
           {DAYS.map((day) => (
-            <div key={day} className="day-column" data-day={day} />
+            <div key={day} className="day-column" data-day={day}>
+              {layouts[day].map(({ activity, top, height: blockHeight }) => (
+                <ActivityBlock key={activity.id} activity={activity} top={top} height={blockHeight} />
+              ))}
+            </div>
           ))}
         </div>
       </div>

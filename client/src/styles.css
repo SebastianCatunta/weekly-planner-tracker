@@ -92,3 +92,30 @@ body {
     transparent var(--row-height)
   );
 }
+
+/* Activity blocks (RF-5.x) */
+.activity-block {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 1px 4px;
+  border: 1px solid #8a8a8a;
+  border-radius: 3px;
+  background: #ffffff;
+  font-size: 0.75rem;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.activity-name {
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.activity-category,
+.activity-hours {
+  color: var(--muted);
+  margin-right: 6px;
+}

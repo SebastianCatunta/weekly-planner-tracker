@@ -150,7 +150,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-26
   Hecho cuando: la pantalla muestra 7 columnas de lunes a domingo con el nombre de cada día (sin fechas), 24 filas de hora de 00:00 a 24:00 de al menos 48 px cada una (1152 px en total), que se desplaza con scroll, y vacía no muestra textos de ayuda.
 
-- [ ] **T-30 · `gridLayout` y `ActivityBlock`** (30 min) · RF-5.1 a 5.4, RF-1.2
+- [x] **T-30 · `gridLayout` y `ActivityBlock`** (30 min) · RF-5.1 a 5.4, RF-1.2
   Depende de: T-29
   Hecho cuando: un bloque aparece en la columna de su día con posición `startMinute / 1440` y altura `(endMinute − startMinute) / 1440`; muestra nombre, categoría y horas, la categoría como texto sin color; una actividad de 1 minuto tiene al menos 20 px de alto y su nombre se lee; una de 00:00 a 00:00 ocupa el día completo; si un bloque de altura mínima tocaría el siguiente del mismo día, este se desplaza hacia abajo y no se superponen.
 
