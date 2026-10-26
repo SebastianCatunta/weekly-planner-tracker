@@ -86,7 +86,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-01
   Hecho cuando: un test con `node --test` lanza dos tareas asíncronas casi a la vez y comprueba que la segunda empieza solo cuando termina la primera, y que si la primera falla la cola sigue funcionando.
 
-- [ ] **T-16 · Servicio: validar antes de guardar** (25 min) · RF-3.9, RF-3.10
+- [x] **T-16 · Servicio: validar antes de guardar** (25 min) · RF-3.9, RF-3.10
   Depende de: T-11
   Hecho cuando: con un repositorio falso en memoria, `createActivity` con datos inválidos devuelve el resultado `VALIDATION_FAILED` con todos los `details` y **no llama** al repositorio (comprobado en el test).
 
