@@ -98,7 +98,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-17, T-13
   Hecho cuando: con repositorio falso, un registro válido devuelve la actividad como `ActivityDto` (`id`, `name`, `category`, `day`, `start`, `end`, `startMinute`, `endMinute`; el fin del día se muestra "00:00"); si el repositorio lanza `DatabaseUnavailableError`, el servicio devuelve `DB_UNAVAILABLE` y no queda nada guardado; los fallos inesperados devuelven `INTERNAL`.
 
-- [ ] **T-19 · Servicio: listar actividades** (20 min) · RF-1.1, RF-6.1, RF-7.4
+- [x] **T-19 · Servicio: listar actividades** (20 min) · RF-1.1, RF-6.1, RF-7.4
   Depende de: T-14, T-18
   Hecho cuando: con repositorio falso, `listActivities` devuelve todas como `ActivityDto` ordenadas; propaga `DB_UNAVAILABLE` y `DATA_CORRUPT` sin devolver listas parciales.
 

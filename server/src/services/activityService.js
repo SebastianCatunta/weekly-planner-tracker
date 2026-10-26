@@ -70,5 +70,17 @@ export function createActivityService({ repository, writeQueue = createWriteQueu
     return { ok: true, activity: toActivityDto(saved) };
   }
 
-  return { createActivity };
+  // 001/RF-1.1, 001/RF-6.1, 001/RF-7.4
+  // The repository already returns the list ordered and complete, or throws: a partial list is
+  // never returned.
+  async function listActivities() {
+    try {
+      const activities = await repository.findAll();
+      return { ok: true, activities: activities.map(toActivityDto) };
+    } catch (error) {
+      return toFailure(error);
+    }
+  }
+
+  return { createActivity, listActivities };
 }

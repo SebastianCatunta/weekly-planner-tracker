@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createActivityService } from "../../src/services/activityService.js";
 import { createFakeRepository } from "./fakeRepository.js";
-import { DatabaseUnavailableError } from "../../src/db/errors.js";
+import { DatabaseUnavailableError, DataCorruptError } from "../../src/db/errors.js";
 
 const valid = { name: "Estudiar", category: "Estudio", day: "monday", start: "18:00", end: "20:00" };
 
@@ -194,4 +194,46 @@ test("unexpected failures return INTERNAL without leaking the error", async () =
   const result = await service.createActivity(valid);
 
   assert.deepEqual(result, { ok: false, code: "INTERNAL" });
+});
+
+test("listActivities returns every activity as an ActivityDto, in the repository's order", async () => {
+  const repository = createFakeRepository();
+  await seed(repository, { name: "A", startMinute: 60, endMinute: 120 });
+  await seed(repository, { name: "B", day: "sunday", startMinute: 1380, endMinute: 1440 });
+  const service = createActivityService({ repository });
+
+  const result = await service.listActivities();
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.activities.map((a) => [a.id, a.name, a.start, a.end]), [
+    ["1", "A", "01:00", "02:00"],
+    ["2", "B", "23:00", "00:00"],
+  ]);
+  assert.deepEqual(Object.keys(result.activities[0]).sort(), [
+    "category", "day", "end", "endMinute", "id", "name", "start", "startMinute",
+  ]);
+});
+
+test("listActivities with no data returns an empty list", async () => {
+  const service = createActivityService({ repository: createFakeRepository() });
+  assert.deepEqual(await service.listActivities(), { ok: true, activities: [] });
+});
+
+test("listActivities propagates DB_UNAVAILABLE and DATA_CORRUPT without a partial list", async () => {
+  const unavailable = createActivityService({
+    repository: createFakeRepository({ failWith: new DatabaseUnavailableError() }),
+  });
+  assert.deepEqual(await unavailable.listActivities(), { ok: false, code: "DB_UNAVAILABLE" });
+
+  const corrupt = createActivityService({
+    repository: createFakeRepository({ failWith: new DataCorruptError() }),
+  });
+  assert.deepEqual(await corrupt.listActivities(), { ok: false, code: "DATA_CORRUPT" });
+});
+
+test("listActivities returns INTERNAL for unexpected failures", async () => {
+  const service = createActivityService({
+    repository: createFakeRepository({ failWith: new Error("x") }),
+  });
+  assert.deepEqual(await service.listActivities(), { ok: false, code: "INTERNAL" });
 });
