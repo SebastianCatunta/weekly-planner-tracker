@@ -138,7 +138,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-02
   Hecho cuando: el archivo contiene los nombres de los 7 días, las etiquetas del formulario, el mensaje de confirmación, el texto exacto "No se pudo guardar por fallas de conexión", los textos exactos "Cargando tus actividades" y "Ocurrió un fallo del sistema al cargar tus actividades, intenta de nuevo en 1 minuto.", y una traducción por cada código de la sección 4 del plan (incluidos `OVERLAP` y `DUPLICATE_OVERLAP`, que aceptan la lista de actividades en conflicto); no hay texto visible en ningún otro archivo (comprobado buscando cadenas en los componentes).
 
-- [ ] **T-27 · Cliente de la API** (25 min) · RF-1.1, RF-2.3
+- [x] **T-27 · Cliente de la API** (25 min) · RF-1.1, RF-2.3
   Depende de: T-21, T-22, T-02
   Hecho cuando: `getActivities` y `createActivity` devuelven un resultado uniforme (éxito con datos, o error con `code`, `details`, `fields` y `conflicts`), y un fallo de red se convierte en el código `DB_UNAVAILABLE`; comprobado llamándolos desde la consola del navegador.
 
