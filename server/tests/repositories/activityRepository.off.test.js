@@ -3,6 +3,9 @@ import assert from "node:assert/strict";
 import { DatabaseUnavailableError } from "../../src/db/errors.js";
 import { ensureIndexes, insert, findByDay, findAll } from "../../src/repositories/activityRepository.js";
 
+// No address, as if MongoDB were not configured.
+delete process.env.MONGODB_URI;
+
 // Own file on purpose: each test file runs in its own process, so no connection exists here even
 // when MONGODB_URI is set.
 const activity = {

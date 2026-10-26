@@ -39,13 +39,15 @@ El archivo `.env` real no se sube al repositorio (está en `.gitignore`). No pon
 
 ## Cómo arrancar
 
-Servidor (las dependencias y el arranque se completan en las tareas T-12 y T-20):
+Servidor (escucha en el puerto 3001, o el de la variable `PORT`):
 
 ```bash
 cd server
 npm install
-npm test
+npm start
 ```
+
+Si MongoDB est� apagado, el servidor arranca igual y responde 503 `DB_UNAVAILABLE` hasta que vuelva a estar disponible.
 
 Cliente:
 

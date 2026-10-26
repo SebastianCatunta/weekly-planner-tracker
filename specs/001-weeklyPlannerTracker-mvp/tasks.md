@@ -106,27 +106,27 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 4: API HTTP
 
-- [ ] **T-20 · Aplicación Express base** (20 min) · RF-7 (base)
+- [x] **T-20 · Aplicación Express base** (20 min) · RF-7 (base)
   Depende de: T-19
   Hecho cuando: `server.js` arranca la aplicación con lectura de JSON; un cuerpo mal formado en cualquier ruta responde 400 `INVALID_BODY` y un fallo no controlado responde 500 `INTERNAL`, ambos con la forma `{ "error": { "code": ... } }` y sin mostrar detalles internos.
 
-- [ ] **T-21 · `GET /api/activities`** (20 min) · RF-1.1, RF-5.1, RF-5.2, RF-6.1, RF-6.3, RF-7.4
+- [x] **T-21 · `GET /api/activities`** (20 min) · RF-1.1, RF-5.1, RF-5.2, RF-6.1, RF-6.3, RF-7.4
   Depende de: T-20
   Hecho cuando: con datos devuelve 200 `{ "activities": [...] }` ordenadas; sin datos devuelve 200 con lista vacía; con MongoDB apagado devuelve 503 `DB_UNAVAILABLE`; con un documento inválido devuelve 500 `DATA_CORRUPT`.
 
-- [ ] **T-22 · `POST /api/activities`** (30 min) · RF-2.3, RF-3.x, RF-4.x, RF-7.1, RF-7.2, RNF-9
+- [x] **T-22 · `POST /api/activities`** (30 min) · RF-2.3, RF-3.x, RF-4.x, RF-7.1, RF-7.2, RNF-9
   Depende de: T-20
   Hecho cuando: con una herramienta de peticiones (curl o similar) se comprueba: válida → 201 y queda en MongoDB; campos inválidos → 422 con todos los `details`; choque → 409 `OVERLAP` con `conflicts`; idéntica → 409 `DUPLICATE_OVERLAP`; MongoDB apagado → 503 y no queda nada guardado; un cuerpo con una clave que empieza por `$` se rechaza con 400 `INVALID_BODY`; la ruta no contiene reglas de negocio, solo traduce el resultado del servicio.
 
-- [ ] **T-23 · Flujo de eventos (`eventHub` y `GET /api/events`)** (25 min) · RF-8.1
+- [x] **T-23 · Flujo de eventos (`eventHub` y `GET /api/events`)** (25 min) · RF-8.1
   Depende de: T-20
   Hecho cuando: una conexión abierta a `/api/events` (con curl o el navegador) permanece abierta, recibe un comentario periódico de mantenimiento, y `eventHub` elimina del registro a los clientes que se desconectan (comprobado cerrando la conexión y viendo que no hay error al emitir).
 
-- [ ] **T-24 · Emitir `activity-created`** (20 min) · RF-8.1
+- [x] **T-24 · Emitir `activity-created`** (20 min) · RF-8.1
   Depende de: T-22, T-23
   Hecho cuando: con dos conexiones abiertas a `/api/events`, un `POST` válido hace llegar a las dos el evento `activity-created` con el `ActivityDto`; un `POST` rechazado no emite ningún evento.
 
-- [ ] **T-25 · Verificación de la API sin interfaz** (25 min) · RF-3.9, RF-4.5, RF-7.1
+- [x] **T-25 · Verificación de la API sin interfaz** (25 min) · RF-3.9, RF-4.5, RF-7.1
   Depende de: T-24
   Hecho cuando: se marcan como correctos estos casos con una herramienta externa: día inexistente, hora "25:99" y nombre con `<script>` enviados directamente se rechazan con 422; dos peticiones simultáneas que chocan dejan guardada solo la primera; con MongoDB apagado el `POST` responde 503.
 
