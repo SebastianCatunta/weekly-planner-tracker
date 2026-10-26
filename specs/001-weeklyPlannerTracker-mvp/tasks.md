@@ -194,19 +194,19 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 6: Verificación y cierre
 
-- [ ] **T-40 · Verificación manual, interfaz** (30 min) · RF-1.1 a 1.5, RF-2.1 a 2.5, RF-3.7, RF-3.10, RF-3.11, RF-5.1 a 5.4
+- [x] **T-40 · Verificación manual, interfaz** (30 min) · RF-1.1 a 1.5, RF-2.1 a 2.5, RF-3.7, RF-3.10, RF-3.11, RF-5.1 a 5.4
   Depende de: T-39
   Hecho cuando: se ejecutan y se marcan como correctas las comprobaciones de interfaz de la sección 9.4 del plan (pantalla inicial, formulario vacío, hora inválida imposible, registro válido con iconos y mensaje de 5 s, varios errores a la vez).
 
-- [ ] **T-41 · Verificación manual, choques, concurrencia y persistencia** (30 min) · RF-4.1 a 4.5, RF-6.1 a 6.3
+- [x] **T-41 · Verificación manual, choques, concurrencia y persistencia** (30 min) · RF-4.1 a 4.5, RF-6.1 a 6.3
   Depende de: T-39
   Hecho cuando: se comprueban y marcan: choque con dos actividades nombra ambas; doble clic deja una sola y la segunda se informa como duplicado y solapamiento; dos navegadores con choque simultáneo dejan la primera; cerrar y reabrir el navegador, y abrir desde otro equipo, muestra el mismo horario.
 
-- [ ] **T-42 · Verificación manual, fallos y varias pestañas** (25 min) · RF-7.1 a 7.4, RF-8.1
+- [x] **T-42 · Verificación manual, fallos y varias pestañas** (25 min) · RF-7.1 a 7.4, RF-8.1
   Depende de: T-39
   Hecho cuando: se comprueban y marcan: MongoDB apagado al registrar (mensaje exacto, campos conservados, actividad ausente); MongoDB apagado al recargar (aviso de error, no cuadrícula vacía); dos pestañas sincronizadas sin recargar.
 
-- [ ] **T-43 · Revisión final contra la constitución** (25 min) · principios 1 a 6, criterio de finalización 4
+- [x] **T-43 · Revisión final contra la constitución** (25 min) · principios 1 a 6, criterio de finalización 4
   Depende de: T-40, T-41, T-42
   Hecho cuando: se comprueba y marca: solo se usan Express, React y MongoDB más las dependencias del README; toda función de `core` tiene `// 001/RF-x` y su test; `npm test` en verde; `core` sin referencias a Express, MongoDB, `document` o `window`; la persistencia usa solo MongoDB con la plantilla separada del registro; todo texto visible está en español en `messages/es.js` y el código en inglés.
 
