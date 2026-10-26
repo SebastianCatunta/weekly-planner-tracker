@@ -90,7 +90,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-11
   Hecho cuando: con un repositorio falso en memoria, `createActivity` con datos inválidos devuelve el resultado `VALIDATION_FAILED` con todos los `details` y **no llama** al repositorio (comprobado en el test).
 
-- [ ] **T-17 · Servicio: choques y duplicados** (30 min) · RF-4.1, RF-4.4, RF-4.5
+- [x] **T-17 · Servicio: choques y duplicados** (30 min) · RF-4.1, RF-4.4, RF-4.5
   Depende de: T-15, T-16
   Hecho cuando: con repositorio falso, un choque devuelve `OVERLAP` con la lista completa de conflictos y los campos `day`, `start`, `end`; una actividad idéntica devuelve `DUPLICATE_OVERLAP`; dos registros que se solapan lanzados a la vez dejan guardado solo el primero; dos envíos idénticos seguidos dejan uno guardado y el segundo es `DUPLICATE_OVERLAP`; el orden es siempre campos, luego choques, luego guardado.
 
