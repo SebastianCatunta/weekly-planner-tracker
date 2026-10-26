@@ -82,23 +82,23 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 3: Servicio
 
-- [ ] **T-15 · Cola de escritura** (20 min) · RF-4.5
+- [x] **T-15 · Cola de escritura** (20 min) · RF-4.5
   Depende de: T-01
   Hecho cuando: un test con `node --test` lanza dos tareas asíncronas casi a la vez y comprueba que la segunda empieza solo cuando termina la primera, y que si la primera falla la cola sigue funcionando.
 
-- [ ] **T-16 · Servicio: validar antes de guardar** (25 min) · RF-3.9, RF-3.10
+- [x] **T-16 · Servicio: validar antes de guardar** (25 min) · RF-3.9, RF-3.10
   Depende de: T-11
   Hecho cuando: con un repositorio falso en memoria, `createActivity` con datos inválidos devuelve el resultado `VALIDATION_FAILED` con todos los `details` y **no llama** al repositorio (comprobado en el test).
 
-- [ ] **T-17 · Servicio: choques y duplicados** (30 min) · RF-4.1, RF-4.4, RF-4.5
+- [x] **T-17 · Servicio: choques y duplicados** (30 min) · RF-4.1, RF-4.4, RF-4.5
   Depende de: T-15, T-16
   Hecho cuando: con repositorio falso, un choque devuelve `OVERLAP` con la lista completa de conflictos y los campos `day`, `start`, `end`; una actividad idéntica devuelve `DUPLICATE_OVERLAP`; dos registros que se solapan lanzados a la vez dejan guardado solo el primero; dos envíos idénticos seguidos dejan uno guardado y el segundo es `DUPLICATE_OVERLAP`; el orden es siempre campos, luego choques, luego guardado.
 
-- [ ] **T-18 · Servicio: guardar y errores de conexión** (30 min) · RF-2.3, RF-7.1, RF-7.2
+- [x] **T-18 · Servicio: guardar y errores de conexión** (30 min) · RF-2.3, RF-7.1, RF-7.2
   Depende de: T-17, T-13
   Hecho cuando: con repositorio falso, un registro válido devuelve la actividad como `ActivityDto` (`id`, `name`, `category`, `day`, `start`, `end`, `startMinute`, `endMinute`; el fin del día se muestra "00:00"); si el repositorio lanza `DatabaseUnavailableError`, el servicio devuelve `DB_UNAVAILABLE` y no queda nada guardado; los fallos inesperados devuelven `INTERNAL`.
 
-- [ ] **T-19 · Servicio: listar actividades** (20 min) · RF-1.1, RF-6.1, RF-7.4
+- [x] **T-19 · Servicio: listar actividades** (20 min) · RF-1.1, RF-6.1, RF-7.4
   Depende de: T-14, T-18
   Hecho cuando: con repositorio falso, `listActivities` devuelve todas como `ActivityDto` ordenadas; propaga `DB_UNAVAILABLE` y `DATA_CORRUPT` sin devolver listas parciales.
 
