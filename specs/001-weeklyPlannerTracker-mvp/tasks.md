@@ -154,7 +154,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-29
   Hecho cuando: un bloque aparece en la columna de su día con posición `startMinute / 1440` y altura `(endMinute − startMinute) / 1440`; muestra nombre, categoría y horas, la categoría como texto sin color; una actividad de 1 minuto tiene al menos 20 px de alto y su nombre se lee; una de 00:00 a 00:00 ocupa el día completo; si un bloque de altura mínima tocaría el siguiente del mismo día, este se desplaza hacia abajo y no se superponen.
 
-- [ ] **T-31 · Unir pantalla con datos** (20 min) · RF-1.1, RF-5.1, RF-6.1, RF-7.4
+- [x] **T-31 · Unir pantalla con datos** (20 min) · RF-1.1, RF-5.1, RF-6.1, RF-7.4
   Depende de: T-28, T-30
   Hecho cuando: con actividades insertadas a mano en MongoDB, `App` las muestra en su día y hora; con el servidor apagado muestra un aviso de error de carga y no una cuadrícula vacía como si fuera real.
 
