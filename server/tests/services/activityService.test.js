@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createActivityService } from "../../src/services/activityService.js";
 import { createFakeRepository } from "./fakeRepository.js";
+import { DatabaseUnavailableError } from "../../src/db/errors.js";
 
 const valid = { name: "Estudiar", category: "Estudio", day: "monday", start: "18:00", end: "20:00" };
 
@@ -127,4 +128,70 @@ test("the order is fields, then conflicts, then saving", async () => {
   repository.calls.length = 0;
   await service.createActivity({ ...valid, start: "08:00", end: "09:00" });
   assert.deepEqual(repository.calls.map(([name]) => name), ["findByDay", "insert"]);
+});
+
+test("a valid registration returns the activity as an ActivityDto", async () => {
+  const repository = createFakeRepository();
+  const service = createActivityService({ repository });
+
+  const result = await service.createActivity({ ...valid, name: "  Estudiar   inglés " });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.activity, {
+    id: "1",
+    name: "Estudiar inglés",
+    category: "Estudio",
+    day: "monday",
+    start: "18:00",
+    end: "20:00",
+    startMinute: 1080,
+    endMinute: 1200,
+  });
+  assert.equal(repository.stored.length, 1);
+});
+
+test("an activity that ends at the end of the day shows end 00:00", async () => {
+  const service = createActivityService({ repository: createFakeRepository() });
+
+  const result = await service.createActivity({ ...valid, day: "sunday", start: "23:00", end: "00:00" });
+
+  assert.equal(result.activity.end, "00:00");
+  assert.equal(result.activity.startMinute, 1380);
+  assert.equal(result.activity.endMinute, 1440);
+});
+
+test("DatabaseUnavailableError becomes DB_UNAVAILABLE and nothing is saved", async () => {
+  const repository = createFakeRepository({ failWith: new DatabaseUnavailableError() });
+  const service = createActivityService({ repository });
+
+  const result = await service.createActivity(valid);
+
+  assert.deepEqual(result, { ok: false, code: "DB_UNAVAILABLE" });
+  assert.equal(repository.stored.length, 0);
+});
+
+test("a database failure while saving leaves nothing stored and the next request still works", async () => {
+  const repository = createFakeRepository();
+  const insert = repository.insert;
+  let fail = true;
+  repository.insert = async (activity) => {
+    if (fail) throw new DatabaseUnavailableError();
+    return insert(activity);
+  };
+  const service = createActivityService({ repository });
+
+  assert.equal((await service.createActivity(valid)).code, "DB_UNAVAILABLE");
+  assert.equal(repository.stored.length, 0);
+
+  fail = false;
+  assert.equal((await service.createActivity(valid)).ok, true);
+});
+
+test("unexpected failures return INTERNAL without leaking the error", async () => {
+  const repository = createFakeRepository({ failWith: new TypeError("secret detail") });
+  const service = createActivityService({ repository });
+
+  const result = await service.createActivity(valid);
+
+  assert.deepEqual(result, { ok: false, code: "INTERNAL" });
 });

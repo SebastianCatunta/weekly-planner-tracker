@@ -94,7 +94,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-15, T-16
   Hecho cuando: con repositorio falso, un choque devuelve `OVERLAP` con la lista completa de conflictos y los campos `day`, `start`, `end`; una actividad idéntica devuelve `DUPLICATE_OVERLAP`; dos registros que se solapan lanzados a la vez dejan guardado solo el primero; dos envíos idénticos seguidos dejan uno guardado y el segundo es `DUPLICATE_OVERLAP`; el orden es siempre campos, luego choques, luego guardado.
 
-- [ ] **T-18 · Servicio: guardar y errores de conexión** (30 min) · RF-2.3, RF-7.1, RF-7.2
+- [x] **T-18 · Servicio: guardar y errores de conexión** (30 min) · RF-2.3, RF-7.1, RF-7.2
   Depende de: T-17, T-13
   Hecho cuando: con repositorio falso, un registro válido devuelve la actividad como `ActivityDto` (`id`, `name`, `category`, `day`, `start`, `end`, `startMinute`, `endMinute`; el fin del día se muestra "00:00"); si el repositorio lanza `DatabaseUnavailableError`, el servicio devuelve `DB_UNAVAILABLE` y no queda nada guardado; los fallos inesperados devuelven `INTERNAL`.
 
