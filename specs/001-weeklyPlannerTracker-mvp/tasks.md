@@ -194,7 +194,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 6: Verificación y cierre
 
-- [ ] **T-40 · Verificación manual, interfaz** (30 min) · RF-1.1 a 1.5, RF-2.1 a 2.5, RF-3.7, RF-3.10, RF-3.11, RF-5.1 a 5.4
+- [x] **T-40 · Verificación manual, interfaz** (30 min) · RF-1.1 a 1.5, RF-2.1 a 2.5, RF-3.7, RF-3.10, RF-3.11, RF-5.1 a 5.4
   Depende de: T-39
   Hecho cuando: se ejecutan y se marcan como correctas las comprobaciones de interfaz de la sección 9.4 del plan (pantalla inicial, formulario vacío, hora inválida imposible, registro válido con iconos y mensaje de 5 s, varios errores a la vez).
 
