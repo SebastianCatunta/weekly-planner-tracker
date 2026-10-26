@@ -82,7 +82,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 3: Servicio
 
-- [ ] **T-15 · Cola de escritura** (20 min) · RF-4.5
+- [x] **T-15 · Cola de escritura** (20 min) · RF-4.5
   Depende de: T-01
   Hecho cuando: un test con `node --test` lanza dos tareas asíncronas casi a la vez y comprueba que la segunda empieza solo cuando termina la primera, y que si la primera falla la cola sigue funcionando.
 
