@@ -4,16 +4,26 @@ import { DAYS } from "../utils/days.js";
 import { formReducer, initialFormState } from "../hooks/formState.js";
 import TimeSelect from "./TimeSelect.jsx";
 
-// 001/RF-2.1, 001/RF-2.2
+// 001/RF-2.1, 001/RF-2.2, 001/RF-2.3, 001/RF-2.4, 001/RF-7.2
 // Five fields that start empty. The day is a single-choice list: one day per registration.
-export default function ActivityForm() {
+// `onSubmit(values)` must return the API result ({ ok, ... }). Nothing is shown as saved, and
+// the fields are not emptied, until the server has answered.
+export default function ActivityForm({ onSubmit }) {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
-  const { values } = state;
+  const { values, status, timeKeys } = state;
   const change = (field) => (event) => dispatch({ type: "change", field, value: event.target.value });
   const changeTime = (field) => (value) => dispatch({ type: "change", field, value });
 
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (status === "saving") return; // a second click while saving is ignored
+    dispatch({ type: "submit-started" });
+    const result = await onSubmit({ ...values });
+    dispatch({ type: result.ok ? "saved" : "submit-ended" });
+  }
+
   return (
-    <form className="activity-form" noValidate>
+    <form className="activity-form" noValidate onSubmit={handleSubmit}>
       <h2>{messages.form.title}</h2>
 
       <label>
@@ -40,15 +50,15 @@ export default function ActivityForm() {
 
       <div className="form-field">
         <span>{messages.form.start}</span>
-        <TimeSelect label={messages.form.start} value={values.start} onChange={changeTime("start")} />
+        <TimeSelect key={timeKeys.start} label={messages.form.start} value={values.start} onChange={changeTime("start")} />
       </div>
 
       <div className="form-field">
         <span>{messages.form.end}</span>
-        <TimeSelect label={messages.form.end} value={values.end} onChange={changeTime("end")} />
+        <TimeSelect key={timeKeys.end} label={messages.form.end} value={values.end} onChange={changeTime("end")} />
       </div>
 
-      <button type="submit">{messages.form.save}</button>
+      <button type="submit" disabled={status === "saving"}>{messages.form.save}</button>
     </form>
   );
 }

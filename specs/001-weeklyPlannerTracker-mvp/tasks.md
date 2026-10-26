@@ -166,7 +166,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-32
   Hecho cuando: el formulario muestra nombre, categoría, un único selector de día, inicio y fin, los cinco vacíos al abrir, y un botón de guardar; el selector de día no permite marcar más de un día.
 
-- [ ] **T-34 · Envío y éxito** (30 min) · RF-2.3, RF-2.4, RF-7.2
+- [x] **T-34 · Envío y éxito** (30 min) · RF-2.3, RF-2.4, RF-7.2
   Depende de: T-31, T-33
   Hecho cuando: al enviar una actividad válida los cinco campos se vacían, la actividad aparece en la cuadrícula en su día y hora, y no aparece antes de que el servidor responda 201 (comprobado con la red limitada en las herramientas del navegador).
 
