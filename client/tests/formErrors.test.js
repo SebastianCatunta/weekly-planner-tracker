@@ -77,3 +77,19 @@ test("the next submit clears the previous messages", () => {
   assert.deepEqual(state.errors, []);
   assert.deepEqual(state.refill, []);
 });
+
+test("a connection error keeps every field and shows no other messages", () => {
+  const state = formReducer({ ...initialFormState, values: filled, errors: ["old"] }, { type: "connection-error" });
+  assert.equal(state.status, "connectionError");
+  assert.deepEqual(state.values, filled);
+  assert.deepEqual(state.errors, []);
+  assert.deepEqual(state.timeKeys, { start: 0, end: 0 });
+});
+
+test("after a connection error, retrying starts a normal save", () => {
+  let state = formReducer({ ...initialFormState, values: filled }, { type: "connection-error" });
+  state = formReducer(state, { type: "submit-started" });
+  assert.equal(state.status, "saving");
+  state = formReducer(state, { type: "saved" });
+  assert.deepEqual(state.values, EMPTY_VALUES);
+});

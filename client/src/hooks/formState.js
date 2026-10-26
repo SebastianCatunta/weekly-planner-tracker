@@ -52,6 +52,10 @@ export function formReducer(state, action) {
         timeKeys: { start: state.timeKeys.start + bump("start"), end: state.timeKeys.end + bump("end") },
       };
     }
+    // 001/RF-7.1, 001/RF-7.3
+    // No connection: show the connection message and keep EVERY field so the user can retry.
+    case "connection-error":
+      return { ...state, status: "connectionError", errors: [], refill: [] };
     default:
       return state;
   }

@@ -178,7 +178,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-34, T-26
   Hecho cuando: con varios campos inválidos se muestran todos los mensajes a la vez; solo se vacían los campos listados en `fields` y los demás conservan lo escrito, y se pide rellenar los vaciados; un choque nombra todas las actividades en conflicto y vacía día, inicio y fin; un duplicado informa que es duplicado y solapamiento, y pide verificar el horario.
 
-- [ ] **T-37 · Error de conexión al guardar** (20 min) · RF-7.1, RF-7.2, RF-7.3
+- [x] **T-37 · Error de conexión al guardar** (20 min) · RF-7.1, RF-7.2, RF-7.3
   Depende de: T-34
   Hecho cuando: con MongoDB apagado, al enviar se muestra exactamente "No se pudo guardar por fallas de conexión" pidiendo intentar de nuevo; los cinco campos conservan lo escrito; la actividad no aparece en el horario; al reintentar con MongoDB encendido se guarda.
 

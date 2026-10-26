@@ -25,6 +25,8 @@ export default function ActivityForm({ onSubmit }) {
     const result = await onSubmit({ ...values });
     if (result.ok) {
       dispatch({ type: "saved" });
+    } else if (result.code === "DB_UNAVAILABLE") {
+      dispatch({ type: "connection-error" });
     } else {
       dispatch({ type: "rejected", ...describeRejection(result) });
     }
@@ -72,6 +74,13 @@ export default function ActivityForm({ onSubmit }) {
         </button>
         <SaveStatus status={status} />
       </div>
+
+      {status === "connectionError" && (
+        <div className="form-errors" role="alert">
+          <p>{messages.connectionError}</p>
+          <p>{messages.tryAgain}</p>
+        </div>
+      )}
 
       {errors.length > 0 && (
         <div className="form-errors" role="alert">
