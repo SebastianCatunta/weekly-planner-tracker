@@ -142,7 +142,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-21, T-22, T-02
   Hecho cuando: `getActivities` y `createActivity` devuelven un resultado uniforme (éxito con datos, o error con `code`, `details`, `fields` y `conflicts`), y un fallo de red se convierte en el código `DB_UNAVAILABLE`; comprobado llamándolos desde la consola del navegador.
 
-- [ ] **T-28 · Hook `useActivities`** (25 min) · RF-1.1, RF-7.4
+- [x] **T-28 · Hook `useActivities`** (25 min) · RF-1.1, RF-7.4
   Depende de: T-27
   Hecho cuando: el hook expone los estados `loading`, `ready` y `failed` con la lista; con el servidor apagado pasa a `failed` y la lista no se presenta como válida, y mientras carga se ve "Cargando tus actividades" (comprobado con un componente de prueba que muestra el estado).
 
