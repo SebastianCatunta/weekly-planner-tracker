@@ -1,4 +1,5 @@
 import express from "express";
+import { rejectOperatorKeys } from "./middleware/rejectOperatorKeys.js";
 
 // Builds the Express app. Dependencies come in as arguments so tests can pass fakes.
 // `routers` is a list of [path, router] pairs mounted after the JSON reader.
@@ -6,6 +7,7 @@ export function createApp({ routers = [], logger = console } = {}) {
   const app = express();
 
   app.use(express.json());
+  app.use(rejectOperatorKeys);
   for (const [path, router] of routers) app.use(path, router);
 
   // Anything not handled by a route: no details about the server are shown.

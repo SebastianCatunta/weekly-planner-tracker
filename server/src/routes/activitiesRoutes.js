@@ -12,5 +12,13 @@ export function createActivitiesRouter(activityService) {
     return res.status(200).json({ activities: result.activities });
   });
 
+  // 001/RF-2.3, 001/RF-3.x, 001/RF-4.x, 001/RF-7.1, 001/RF-7.2
+  // No rules here: the service validates, checks conflicts and saves; the route only translates.
+  router.post("/activities", async (req, res) => {
+    const result = await activityService.createActivity(req.body);
+    if (!result.ok) return sendFailure(res, result);
+    return res.status(201).json({ activity: result.activity });
+  });
+
   return router;
 }

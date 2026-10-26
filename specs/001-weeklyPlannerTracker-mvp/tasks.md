@@ -114,7 +114,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-20
   Hecho cuando: con datos devuelve 200 `{ "activities": [...] }` ordenadas; sin datos devuelve 200 con lista vacía; con MongoDB apagado devuelve 503 `DB_UNAVAILABLE`; con un documento inválido devuelve 500 `DATA_CORRUPT`.
 
-- [ ] **T-22 · `POST /api/activities`** (30 min) · RF-2.3, RF-3.x, RF-4.x, RF-7.1, RF-7.2, RNF-9
+- [x] **T-22 · `POST /api/activities`** (30 min) · RF-2.3, RF-3.x, RF-4.x, RF-7.1, RF-7.2, RNF-9
   Depende de: T-20
   Hecho cuando: con una herramienta de peticiones (curl o similar) se comprueba: válida → 201 y queda en MongoDB; campos inválidos → 422 con todos los `details`; choque → 409 `OVERLAP` con `conflicts`; idéntica → 409 `DUPLICATE_OVERLAP`; MongoDB apagado → 503 y no queda nada guardado; un cuerpo con una clave que empieza por `$` se rechaza con 400 `INVALID_BODY`; la ruta no contiene reglas de negocio, solo traduce el resultado del servicio.
 
