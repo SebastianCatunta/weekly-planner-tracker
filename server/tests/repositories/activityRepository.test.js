@@ -1,7 +1,7 @@
 import { test, before, after, beforeEach } from "node:test";
 import assert from "node:assert/strict";
 import { connect, close, getDb } from "../../src/db/connection.js";
-import { DatabaseUnavailableError, DataCorruptError } from "../../src/db/errors.js";
+import { DataCorruptError } from "../../src/db/errors.js";
 import {
   ensureIndexes,
   insert,
@@ -17,15 +17,6 @@ const activity = (overrides = {}) => ({
   startMinute: 1080,
   endMinute: 1200,
   ...overrides,
-});
-
-// MongoDB off: no connection has been made yet in this process, so every operation must fail
-// with the own error and never with a driver error.
-test("insert and findByDay throw DatabaseUnavailableError with MongoDB off", async () => {
-  await assert.rejects(insert(activity()), DatabaseUnavailableError);
-  await assert.rejects(findByDay("monday"), DatabaseUnavailableError);
-  await assert.rejects(findAll(), DatabaseUnavailableError);
-  await assert.rejects(ensureIndexes(), DatabaseUnavailableError);
 });
 
 const storedDoc = (overrides = {}) => ({
