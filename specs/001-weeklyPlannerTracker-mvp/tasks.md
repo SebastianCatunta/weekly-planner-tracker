@@ -158,7 +158,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-28, T-30
   Hecho cuando: con actividades insertadas a mano en MongoDB, `App` las muestra en su día y hora; con el servidor apagado muestra un aviso de error de carga y no una cuadrícula vacía como si fuera real.
 
-- [ ] **T-32 · `TimeSelect`** (25 min) · RF-3.7
+- [x] **T-32 · `TimeSelect`** (25 min) · RF-3.7
   Depende de: T-26
   Hecho cuando: ofrece lista de horas 00–23 y de minutos 00–59 (parte sin selección); es imposible elegir una hora o un minuto fuera de rango; entrega el valor "HH:MM" o vacío si falta alguno de los dos.
 
