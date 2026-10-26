@@ -108,3 +108,48 @@ test("GET with an invalid stored document answers 500 DATA_CORRUPT", live, async
   assert.equal(res.status, 500);
   assert.deepEqual(await res.json(), { error: { code: "DATA_CORRUPT" } });
 });
+
+// T-25: cases sent straight to the API, without any interface in front.
+test("a day that does not exist is rejected with 422 DAY_INVALID", live, async () => {
+  const res = await postJson(api, body({ day: "funday" }));
+  assert.equal(res.status, 422);
+  assert.deepEqual((await res.json()).error.details, [{ code: "DAY_INVALID", fields: ["day"] }]);
+  assert.equal((await stored()).length, 0);
+});
+
+test('the time "25:99" is rejected with 422 TIME_INVALID', live, async () => {
+  const res = await postJson(api, body({ start: "25:99" }));
+  assert.equal(res.status, 422);
+  assert.deepEqual((await res.json()).error.details, [{ code: "TIME_INVALID", fields: ["start"] }]);
+  assert.equal((await stored()).length, 0);
+});
+
+test("a name with <script> is rejected with 422 TEXT_NOT_ALLOWED", live, async () => {
+  const res = await postJson(api, body({ name: "<script>alert(1)</script>" }));
+  assert.equal(res.status, 422);
+  assert.deepEqual((await res.json()).error.details, [{ code: "TEXT_NOT_ALLOWED", fields: ["name"] }]);
+  assert.equal((await stored()).length, 0);
+});
+
+test("two simultaneous requests that clash leave only the first one saved", live, async () => {
+  const [first, second] = await Promise.all([
+    postJson(api, body({ name: "Primera", start: "10:00", end: "11:00" })),
+    postJson(api, body({ name: "Segunda", start: "10:30", end: "11:30" })),
+  ]);
+  const statuses = [first.status, second.status].sort();
+  assert.deepEqual(statuses, [201, 409]);
+
+  const docs = await stored();
+  assert.equal(docs.length, 1);
+  // The saved one is the one that got the 201.
+  const winner = first.status === 201 ? "Primera" : "Segunda";
+  assert.equal(docs[0].name, winner);
+});
+
+test("two identical simultaneous requests leave one saved and the other DUPLICATE_OVERLAP", live, async () => {
+  const [a, b] = await Promise.all([postJson(api, body()), postJson(api, body())]);
+  const results = await Promise.all([a, b].map(async (r) => [r.status, (await r.json()).error?.code]));
+  assert.deepEqual(results.map(([status]) => status).sort(), [201, 409]);
+  assert.ok(results.some(([, code]) => code === "DUPLICATE_OVERLAP"));
+  assert.equal((await stored()).length, 1);
+});

@@ -126,7 +126,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-22, T-23
   Hecho cuando: con dos conexiones abiertas a `/api/events`, un `POST` válido hace llegar a las dos el evento `activity-created` con el `ActivityDto`; un `POST` rechazado no emite ningún evento.
 
-- [ ] **T-25 · Verificación de la API sin interfaz** (25 min) · RF-3.9, RF-4.5, RF-7.1
+- [x] **T-25 · Verificación de la API sin interfaz** (25 min) · RF-3.9, RF-4.5, RF-7.1
   Depende de: T-24
   Hecho cuando: se marcan como correctos estos casos con una herramienta externa: día inexistente, hora "25:99" y nombre con `<script>` enviados directamente se rechazan con 422; dos peticiones simultáneas que chocan dejan guardada solo la primera; con MongoDB apagado el `POST` responde 503.
 
