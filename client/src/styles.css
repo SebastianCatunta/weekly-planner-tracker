@@ -192,3 +192,22 @@ body {
   border-radius: 4px;
   background: #e8f5ec;
 }
+
+/* Rejections (RF-3.10, RF-3.11, RF-4.x) */
+.form-errors {
+  padding: 8px 10px;
+  border: 1px solid #b42318;
+  border-radius: 4px;
+  background: #fdecea;
+  font-size: 0.9rem;
+}
+
+.form-errors ul {
+  margin: 0 0 6px;
+  padding-left: 18px;
+}
+
+.form-errors p {
+  margin: 0;
+  font-weight: 600;
+}

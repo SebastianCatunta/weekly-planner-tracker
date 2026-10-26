@@ -174,7 +174,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-34
   Hecho cuando: mientras se guarda se ve el icono "guardando"; al terminar se ve el icono "guardado"; aparece un mensaje de confirmación que desaparece a los 5 segundos (medido con un cronómetro).
 
-- [ ] **T-36 · Rechazos por error del usuario** (30 min) · RF-3.10, RF-3.11, RF-4.1, RF-4.4
+- [x] **T-36 · Rechazos por error del usuario** (30 min) · RF-3.10, RF-3.11, RF-4.1, RF-4.4
   Depende de: T-34, T-26
   Hecho cuando: con varios campos inválidos se muestran todos los mensajes a la vez; solo se vacían los campos listados en `fields` y los demás conservan lo escrito, y se pide rellenar los vaciados; un choque nombra todas las actividades en conflicto y vacía día, inicio y fin; un duplicado informa que es duplicado y solapamiento, y pide verificar el horario.
 

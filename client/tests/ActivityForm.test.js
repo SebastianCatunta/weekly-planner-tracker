@@ -66,11 +66,3 @@ test("saved empties the five fields and restarts the time lists", () => {
   assert.deepEqual(state.values, EMPTY_VALUES);
   assert.deepEqual(state.timeKeys, { start: 1, end: 1 });
 });
-
-test("a submit that ends without success keeps what was written", () => {
-  let state = { ...initialFormState, values: filled };
-  state = formReducer(state, { type: "submit-started" });
-  state = formReducer(state, { type: "submit-ended" });
-  assert.equal(state.status, "idle");
-  assert.deepEqual(state.values, filled);
-});

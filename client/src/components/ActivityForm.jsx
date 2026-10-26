@@ -3,6 +3,7 @@ import { messages } from "../messages/es.js";
 import { DAYS } from "../utils/days.js";
 import { formReducer, initialFormState } from "../hooks/formState.js";
 import SaveStatus from "./SaveStatus.jsx";
+import { describeRejection } from "../utils/formErrors.js";
 import TimeSelect from "./TimeSelect.jsx";
 import Toast from "./Toast.jsx";
 
@@ -12,7 +13,7 @@ import Toast from "./Toast.jsx";
 // the fields are not emptied, until the server has answered.
 export default function ActivityForm({ onSubmit }) {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
-  const { values, status, timeKeys, toastVisible } = state;
+  const { values, status, timeKeys, toastVisible, errors, refill } = state;
   const closeToast = useCallback(() => dispatch({ type: "toast-closed" }), []);
   const change = (field) => (event) => dispatch({ type: "change", field, value: event.target.value });
   const changeTime = (field) => (value) => dispatch({ type: "change", field, value });
@@ -22,7 +23,11 @@ export default function ActivityForm({ onSubmit }) {
     if (status === "saving") return; // a second click while saving is ignored
     dispatch({ type: "submit-started" });
     const result = await onSubmit({ ...values });
-    dispatch({ type: result.ok ? "saved" : "submit-ended" });
+    if (result.ok) {
+      dispatch({ type: "saved" });
+    } else {
+      dispatch({ type: "rejected", ...describeRejection(result) });
+    }
   }
 
   return (
@@ -67,6 +72,17 @@ export default function ActivityForm({ onSubmit }) {
         </button>
         <SaveStatus status={status} />
       </div>
+
+      {errors.length > 0 && (
+        <div className="form-errors" role="alert">
+          <ul>
+            {errors.map((text) => (
+              <li key={text}>{text}</li>
+            ))}
+          </ul>
+          {refill.length > 0 && <p>{messages.refill(refill.map((field) => messages.form[field]))}</p>}
+        </div>
+      )}
 
       {toastVisible && <Toast message={messages.saved} onClose={closeToast} />}
     </form>
