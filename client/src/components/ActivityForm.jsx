@@ -1,8 +1,10 @@
-import { useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import { messages } from "../messages/es.js";
 import { DAYS } from "../utils/days.js";
 import { formReducer, initialFormState } from "../hooks/formState.js";
+import SaveStatus from "./SaveStatus.jsx";
 import TimeSelect from "./TimeSelect.jsx";
+import Toast from "./Toast.jsx";
 
 // 001/RF-2.1, 001/RF-2.2, 001/RF-2.3, 001/RF-2.4, 001/RF-7.2
 // Five fields that start empty. The day is a single-choice list: one day per registration.
@@ -10,7 +12,8 @@ import TimeSelect from "./TimeSelect.jsx";
 // the fields are not emptied, until the server has answered.
 export default function ActivityForm({ onSubmit }) {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
-  const { values, status, timeKeys } = state;
+  const { values, status, timeKeys, toastVisible } = state;
+  const closeToast = useCallback(() => dispatch({ type: "toast-closed" }), []);
   const change = (field) => (event) => dispatch({ type: "change", field, value: event.target.value });
   const changeTime = (field) => (value) => dispatch({ type: "change", field, value });
 
@@ -58,7 +61,14 @@ export default function ActivityForm({ onSubmit }) {
         <TimeSelect key={timeKeys.end} label={messages.form.end} value={values.end} onChange={changeTime("end")} />
       </div>
 
-      <button type="submit" disabled={status === "saving"}>{messages.form.save}</button>
+      <div className="form-actions">
+        <button type="submit" disabled={status === "saving"}>
+          {messages.form.save}
+        </button>
+        <SaveStatus status={status} />
+      </div>
+
+      {toastVisible && <Toast message={messages.saved} onClose={closeToast} />}
     </form>
   );
 }

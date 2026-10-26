@@ -170,7 +170,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-31, T-33
   Hecho cuando: al enviar una actividad válida los cinco campos se vacían, la actividad aparece en la cuadrícula en su día y hora, y no aparece antes de que el servidor responda 201 (comprobado con la red limitada en las herramientas del navegador).
 
-- [ ] **T-35 · `SaveStatus` y `Toast`** (25 min) · RF-2.4, RF-2.5
+- [x] **T-35 · `SaveStatus` y `Toast`** (25 min) · RF-2.4, RF-2.5
   Depende de: T-34
   Hecho cuando: mientras se guarda se ve el icono "guardando"; al terminar se ve el icono "guardado"; aparece un mensaje de confirmación que desaparece a los 5 segundos (medido con un cronómetro).
 

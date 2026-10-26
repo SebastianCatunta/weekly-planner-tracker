@@ -11,6 +11,7 @@ export const initialFormState = {
   values: EMPTY_VALUES,
   status: "idle",
   timeKeys: { start: 0, end: 0 },
+  toastVisible: false,
 };
 
 export function formReducer(state, action) {
@@ -18,16 +19,21 @@ export function formReducer(state, action) {
     case "change":
       return { ...state, values: { ...state.values, [action.field]: action.value } };
     case "submit-started":
-      return { ...state, status: "saving" };
+      return { ...state, status: "saving", toastVisible: false };
     // 001/RF-2.4
     // Saved: the five fields are emptied.
     case "saved":
       return {
         ...state,
         status: "saved",
+        toastVisible: true,
         values: EMPTY_VALUES,
         timeKeys: { start: state.timeKeys.start + 1, end: state.timeKeys.end + 1 },
       };
+    // 001/RF-2.4
+    // The confirmation message goes away after 5 seconds; the "saved" icon stays until the next submit.
+    case "toast-closed":
+      return { ...state, toastVisible: false };
     case "submit-ended":
       return { ...state, status: "idle" };
     default:
