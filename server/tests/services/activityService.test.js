@@ -237,3 +237,36 @@ test("listActivities returns INTERNAL for unexpected failures", async () => {
   });
   assert.deepEqual(await service.listActivities(), { ok: false, code: "INTERNAL" });
 });
+
+const fakeHub = () => {
+  const events = [];
+  return { events, broadcast: (event, data) => events.push([event, data]) };
+};
+
+test("a saved activity emits activity-created with the ActivityDto", async () => {
+  const eventHub = fakeHub();
+  const service = createActivityService({ repository: createFakeRepository(), eventHub });
+
+  const result = await service.createActivity(valid);
+
+  assert.deepEqual(eventHub.events, [["activity-created", result.activity]]);
+});
+
+test("rejected registrations emit nothing", async () => {
+  const eventHub = fakeHub();
+  const repository = createFakeRepository();
+  await seed(repository);
+  const service = createActivityService({ repository, eventHub });
+
+  await service.createActivity({ ...valid, name: "" }); // invalid
+  await service.createActivity(valid); // duplicate
+  await service.createActivity({ ...valid, name: "Otra", start: "19:00", end: "21:00" }); // overlap
+
+  const failing = createActivityService({
+    repository: createFakeRepository({ failWith: new DatabaseUnavailableError() }),
+    eventHub,
+  });
+  await failing.createActivity(valid); // database off
+
+  assert.deepEqual(eventHub.events, []);
+});

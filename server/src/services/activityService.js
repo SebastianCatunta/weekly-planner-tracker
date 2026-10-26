@@ -36,7 +36,7 @@ function toConflictDto(activity) {
 }
 
 // Builds the service around its dependencies so tests can pass a fake repository.
-export function createActivityService({ repository, writeQueue = createWriteQueue() }) {
+export function createActivityService({ repository, writeQueue = createWriteQueue(), eventHub = null }) {
   // 001/RF-3.9, 001/RF-4.1, 001/RF-4.4, 001/RF-4.5
   // Fixed order: fields, then conflicts, then saving. Checking and saving run inside the queue,
   // one registration at a time, so the second of two clashing requests sees the first one saved.
@@ -67,7 +67,11 @@ export function createActivityService({ repository, writeQueue = createWriteQueu
     }
 
     const saved = await repository.insert({ ...candidate, createdAt: new Date() });
-    return { ok: true, activity: toActivityDto(saved) };
+    const activity = toActivityDto(saved);
+    // 001/RF-8.1
+    // Only after the activity is saved: a rejected registration never emits.
+    eventHub?.broadcast("activity-created", activity);
+    return { ok: true, activity };
   }
 
   // 001/RF-1.1, 001/RF-6.1, 001/RF-7.4

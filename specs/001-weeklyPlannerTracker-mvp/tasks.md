@@ -122,7 +122,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-20
   Hecho cuando: una conexión abierta a `/api/events` (con curl o el navegador) permanece abierta, recibe un comentario periódico de mantenimiento, y `eventHub` elimina del registro a los clientes que se desconectan (comprobado cerrando la conexión y viendo que no hay error al emitir).
 
-- [ ] **T-24 · Emitir `activity-created`** (20 min) · RF-8.1
+- [x] **T-24 · Emitir `activity-created`** (20 min) · RF-8.1
   Depende de: T-22, T-23
   Hecho cuando: con dos conexiones abiertas a `/api/events`, un `POST` válido hace llegar a las dos el evento `activity-created` con el `ActivityDto`; un `POST` rechazado no emite ningún evento.
 

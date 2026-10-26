@@ -21,9 +21,8 @@ try {
 }
 
 // One service for the whole process, so every request shares the same write queue.
-const activityService = createActivityService({ repository });
-
 const eventHub = createEventHub();
+const activityService = createActivityService({ repository, eventHub });
 
 createApp({
   routers: [
