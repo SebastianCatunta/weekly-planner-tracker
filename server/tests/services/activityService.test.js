@@ -134,12 +134,12 @@ test("a valid registration returns the activity as an ActivityDto", async () => 
   const repository = createFakeRepository();
   const service = createActivityService({ repository });
 
-  const result = await service.createActivity({ ...valid, name: "  Estudiar   inglés " });
+  const result = await service.createActivity({ ...valid, name: "  Estudiar   inglÃ©s " });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.activity, {
     id: "1",
-    name: "Estudiar inglés",
+    name: "Estudiar inglÃ©s",
     category: "Estudio",
     day: "monday",
     start: "18:00",
