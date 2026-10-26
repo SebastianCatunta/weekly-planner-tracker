@@ -162,7 +162,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-26
   Hecho cuando: ofrece lista de horas 00–23 y de minutos 00–59 (parte sin selección); es imposible elegir una hora o un minuto fuera de rango; entrega el valor "HH:MM" o vacío si falta alguno de los dos.
 
-- [ ] **T-33 · `ActivityForm`: campos** (25 min) · RF-2.1, RF-2.2
+- [x] **T-33 · `ActivityForm`: campos** (25 min) · RF-2.1, RF-2.2
   Depende de: T-32
   Hecho cuando: el formulario muestra nombre, categoría, un único selector de día, inicio y fin, los cinco vacíos al abrir, y un botón de guardar; el selector de día no permite marcar más de un día.
 

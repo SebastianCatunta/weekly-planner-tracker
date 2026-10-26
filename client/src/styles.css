@@ -119,3 +119,47 @@ body {
   color: var(--muted);
   margin-right: 6px;
 }
+
+/* Layout and form (RF-2.x) */
+.app-layout {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.app-layout .weekly-grid {
+  flex: 1;
+}
+
+.activity-form {
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activity-form h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.activity-form label,
+.activity-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.9rem;
+}
+
+.activity-form input,
+.activity-form select,
+.activity-form button {
+  font: inherit;
+  padding: 4px 6px;
+}
+
+.time-select {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
