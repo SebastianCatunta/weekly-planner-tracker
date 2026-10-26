@@ -105,3 +105,21 @@ Comprobados enviando peticiones directas al servidor (criterio de finalización 
 | Texto que intenta vulnerar la seguridad, datos que llegan sin pasar por el formulario | Ver T-42 |
 
 El caso "recarga o salida con el formulario a medio llenar: el borrador se pierde" es el comportamiento por defecto de la aplicación, que no guarda borradores.
+
+## T-43 · Revisión final contra la constitución
+
+| Principio | Comprobación | Resultado |
+|---|---|---|
+| 1. Stack fijo | Dependencias del servidor: `express` y `mongodb`. Dependencias del cliente: `react` y `react-dom`, más `vite` y `@vitejs/plugin-react` solo en desarrollo. Las cuatro están en la tabla del README con su justificación | Correcto |
+| 2. Spec manda | Cada función de `core`, incluidas las auxiliares, lleva `// 001/RF-x` justo encima: `overlaps`, `isIdentical`, `findConflicts`, `normalizeText`, `parseMinutes`, `endToMinutes`, `formatMinutes`, `validateTextField`, `isMissing`, `readTime`, `validateSchedule` y `validateActivity` | Correcto |
+| 3. Lógica separada | Una búsqueda de `express`, `mongodb`, `document`, `window` y `localStorage` en `server/src/core/` no devuelve resultados. Las rutas solo traducen el resultado del servicio | Correcto |
+| 4. Tests en `core` | Cada archivo de `core` tiene su test y cada función exportada aparece en él. `npm test` en `server/`: 114 pasan y 20 se omiten sin `MONGODB_URI`; con `node --env-file=.env --test`: 134 pasan y 0 fallan. `npm test` en `client/`: 70 pasan | Correcto |
+| 5. Persistencia en MongoDB | Solo `connection.js` y `activityRepository.js` importan el driver. Se usa solo la colección `activities` (el horario). `completions` no existe: queda reservada para una spec posterior | Correcto |
+| 6. Idioma | Un test del cliente comprueba que ningún componente escribe texto visible; todo está en `client/src/messages/es.js`. No hay caracteres acentuados ni palabras en español fuera de ese archivo, salvo los separadores `–` y `·` de las horas | Correcto |
+
+## Estado
+
+Las tareas T-01 a T-43 están completas y los criterios de finalización de la sección 8 de la spec se cumplen con estas salvedades:
+
+- El criterio 1 (RF-1 a RF-8) y el 3 (casos límite) están comprobados en Edge; los otros tres navegadores de RNF-5 y un segundo equipo físico no se probaron (ver los límites al inicio).
+- La verificación se hizo con un script que controla el navegador, no a mano frente a la pantalla.

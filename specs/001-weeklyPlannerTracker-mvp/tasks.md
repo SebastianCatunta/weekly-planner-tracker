@@ -206,7 +206,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-39
   Hecho cuando: se comprueban y marcan: MongoDB apagado al registrar (mensaje exacto, campos conservados, actividad ausente); MongoDB apagado al recargar (aviso de error, no cuadrícula vacía); dos pestañas sincronizadas sin recargar.
 
-- [ ] **T-43 · Revisión final contra la constitución** (25 min) · principios 1 a 6, criterio de finalización 4
+- [x] **T-43 · Revisión final contra la constitución** (25 min) · principios 1 a 6, criterio de finalización 4
   Depende de: T-40, T-41, T-42
   Hecho cuando: se comprueba y marca: solo se usan Express, React y MongoDB más las dependencias del README; toda función de `core` tiene `// 001/RF-x` y su test; `npm test` en verde; `core` sin referencias a Express, MongoDB, `document` o `window`; la persistencia usa solo MongoDB con la plantilla separada del registro; todo texto visible está en español en `messages/es.js` y el código en inglés.
 
