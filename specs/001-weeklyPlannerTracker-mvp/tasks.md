@@ -134,7 +134,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 5: Interfaz (`client/`)
 
-- [ ] **T-26 · `messages/es.js`** (25 min) · RNF-3, RF-1.4, RF-7.1, RF-7.4
+- [x] **T-26 · `messages/es.js`** (25 min) · RNF-3, RF-1.4, RF-7.1, RF-7.4
   Depende de: T-02
   Hecho cuando: el archivo contiene los nombres de los 7 días, las etiquetas del formulario, el mensaje de confirmación, el texto exacto "No se pudo guardar por fallas de conexión", los textos exactos "Cargando tus actividades" y "Ocurrió un fallo del sistema al cargar tus actividades, intenta de nuevo en 1 minuto.", y una traducción por cada código de la sección 4 del plan (incluidos `OVERLAP` y `DUPLICATE_OVERLAP`, que aceptan la lista de actividades en conflicto); no hay texto visible en ningún otro archivo (comprobado buscando cadenas en los componentes).
 
