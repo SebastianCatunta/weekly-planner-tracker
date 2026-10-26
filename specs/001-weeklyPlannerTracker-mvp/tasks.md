@@ -134,59 +134,59 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 5: Interfaz (`client/`)
 
-- [ ] **T-26 · `messages/es.js`** (25 min) · RNF-3, RF-1.4, RF-7.1, RF-7.4
+- [x] **T-26 · `messages/es.js`** (25 min) · RNF-3, RF-1.4, RF-7.1, RF-7.4
   Depende de: T-02
   Hecho cuando: el archivo contiene los nombres de los 7 días, las etiquetas del formulario, el mensaje de confirmación, el texto exacto "No se pudo guardar por fallas de conexión", los textos exactos "Cargando tus actividades" y "Ocurrió un fallo del sistema al cargar tus actividades, intenta de nuevo en 1 minuto.", y una traducción por cada código de la sección 4 del plan (incluidos `OVERLAP` y `DUPLICATE_OVERLAP`, que aceptan la lista de actividades en conflicto); no hay texto visible en ningún otro archivo (comprobado buscando cadenas en los componentes).
 
-- [ ] **T-27 · Cliente de la API** (25 min) · RF-1.1, RF-2.3
+- [x] **T-27 · Cliente de la API** (25 min) · RF-1.1, RF-2.3
   Depende de: T-21, T-22, T-02
   Hecho cuando: `getActivities` y `createActivity` devuelven un resultado uniforme (éxito con datos, o error con `code`, `details`, `fields` y `conflicts`), y un fallo de red se convierte en el código `DB_UNAVAILABLE`; comprobado llamándolos desde la consola del navegador.
 
-- [ ] **T-28 · Hook `useActivities`** (25 min) · RF-1.1, RF-7.4
+- [x] **T-28 · Hook `useActivities`** (25 min) · RF-1.1, RF-7.4
   Depende de: T-27
   Hecho cuando: el hook expone los estados `loading`, `ready` y `failed` con la lista; con el servidor apagado pasa a `failed` y la lista no se presenta como válida, y mientras carga se ve "Cargando tus actividades" (comprobado con un componente de prueba que muestra el estado).
 
-- [ ] **T-29 · `WeeklyGrid` base** (30 min) · RF-1.1 a 1.5
+- [x] **T-29 · `WeeklyGrid` base** (30 min) · RF-1.1 a 1.5
   Depende de: T-26
   Hecho cuando: la pantalla muestra 7 columnas de lunes a domingo con el nombre de cada día (sin fechas), 24 filas de hora de 00:00 a 24:00 de al menos 48 px cada una (1152 px en total), que se desplaza con scroll, y vacía no muestra textos de ayuda.
 
-- [ ] **T-30 · `gridLayout` y `ActivityBlock`** (30 min) · RF-5.1 a 5.4, RF-1.2
+- [x] **T-30 · `gridLayout` y `ActivityBlock`** (30 min) · RF-5.1 a 5.4, RF-1.2
   Depende de: T-29
   Hecho cuando: un bloque aparece en la columna de su día con posición `startMinute / 1440` y altura `(endMinute − startMinute) / 1440`; muestra nombre, categoría y horas, la categoría como texto sin color; una actividad de 1 minuto tiene al menos 20 px de alto y su nombre se lee; una de 00:00 a 00:00 ocupa el día completo; si un bloque de altura mínima tocaría el siguiente del mismo día, este se desplaza hacia abajo y no se superponen.
 
-- [ ] **T-31 · Unir pantalla con datos** (20 min) · RF-1.1, RF-5.1, RF-6.1, RF-7.4
+- [x] **T-31 · Unir pantalla con datos** (20 min) · RF-1.1, RF-5.1, RF-6.1, RF-7.4
   Depende de: T-28, T-30
   Hecho cuando: con actividades insertadas a mano en MongoDB, `App` las muestra en su día y hora; con el servidor apagado muestra un aviso de error de carga y no una cuadrícula vacía como si fuera real.
 
-- [ ] **T-32 · `TimeSelect`** (25 min) · RF-3.7
+- [x] **T-32 · `TimeSelect`** (25 min) · RF-3.7
   Depende de: T-26
   Hecho cuando: ofrece lista de horas 00–23 y de minutos 00–59 (parte sin selección); es imposible elegir una hora o un minuto fuera de rango; entrega el valor "HH:MM" o vacío si falta alguno de los dos.
 
-- [ ] **T-33 · `ActivityForm`: campos** (25 min) · RF-2.1, RF-2.2
+- [x] **T-33 · `ActivityForm`: campos** (25 min) · RF-2.1, RF-2.2
   Depende de: T-32
   Hecho cuando: el formulario muestra nombre, categoría, un único selector de día, inicio y fin, los cinco vacíos al abrir, y un botón de guardar; el selector de día no permite marcar más de un día.
 
-- [ ] **T-34 · Envío y éxito** (30 min) · RF-2.3, RF-2.4, RF-7.2
+- [x] **T-34 · Envío y éxito** (30 min) · RF-2.3, RF-2.4, RF-7.2
   Depende de: T-31, T-33
   Hecho cuando: al enviar una actividad válida los cinco campos se vacían, la actividad aparece en la cuadrícula en su día y hora, y no aparece antes de que el servidor responda 201 (comprobado con la red limitada en las herramientas del navegador).
 
-- [ ] **T-35 · `SaveStatus` y `Toast`** (25 min) · RF-2.4, RF-2.5
+- [x] **T-35 · `SaveStatus` y `Toast`** (25 min) · RF-2.4, RF-2.5
   Depende de: T-34
   Hecho cuando: mientras se guarda se ve el icono "guardando"; al terminar se ve el icono "guardado"; aparece un mensaje de confirmación que desaparece a los 5 segundos (medido con un cronómetro).
 
-- [ ] **T-36 · Rechazos por error del usuario** (30 min) · RF-3.10, RF-3.11, RF-4.1, RF-4.4
+- [x] **T-36 · Rechazos por error del usuario** (30 min) · RF-3.10, RF-3.11, RF-4.1, RF-4.4
   Depende de: T-34, T-26
   Hecho cuando: con varios campos inválidos se muestran todos los mensajes a la vez; solo se vacían los campos listados en `fields` y los demás conservan lo escrito, y se pide rellenar los vaciados; un choque nombra todas las actividades en conflicto y vacía día, inicio y fin; un duplicado informa que es duplicado y solapamiento, y pide verificar el horario.
 
-- [ ] **T-37 · Error de conexión al guardar** (20 min) · RF-7.1, RF-7.2, RF-7.3
+- [x] **T-37 · Error de conexión al guardar** (20 min) · RF-7.1, RF-7.2, RF-7.3
   Depende de: T-34
   Hecho cuando: con MongoDB apagado, al enviar se muestra exactamente "No se pudo guardar por fallas de conexión" pidiendo intentar de nuevo; los cinco campos conservan lo escrito; la actividad no aparece en el horario; al reintentar con MongoDB encendido se guarda.
 
-- [ ] **T-38 · Sincronización entre pestañas** (30 min) · RF-8.1
+- [x] **T-38 · Sincronización entre pestañas** (30 min) · RF-8.1
   Depende de: T-24, T-31
   Hecho cuando: el cliente se suscribe a `/api/events`; con dos pestañas abiertas, registrar en una hace aparecer la actividad en la otra sin recargar; la pestaña que registró no muestra la actividad duplicada (se une por `id`); si se apaga y enciende el servidor, la pestaña vuelve a cargar la lista completa.
 
-- [ ] **T-39 · Servir el cliente desde Express** (20 min) · RF-1.1 (acceso en producción), RNF-5
+- [x] **T-39 · Servir el cliente desde Express** (20 min) · RF-1.1 (acceso en producción), RNF-5
   Depende de: T-38
   Hecho cuando: tras compilar el cliente, el servidor entrega la página en su propia dirección y la aplicación funciona completa sin el servidor de desarrollo de Vite.
 
