@@ -182,7 +182,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-34
   Hecho cuando: con MongoDB apagado, al enviar se muestra exactamente "No se pudo guardar por fallas de conexión" pidiendo intentar de nuevo; los cinco campos conservan lo escrito; la actividad no aparece en el horario; al reintentar con MongoDB encendido se guarda.
 
-- [ ] **T-38 · Sincronización entre pestañas** (30 min) · RF-8.1
+- [x] **T-38 · Sincronización entre pestañas** (30 min) · RF-8.1
   Depende de: T-24, T-31
   Hecho cuando: el cliente se suscribe a `/api/events`; con dos pestañas abiertas, registrar en una hace aparecer la actividad en la otra sin recargar; la pestaña que registró no muestra la actividad duplicada (se une por `id`); si se apaga y enciende el servidor, la pestaña vuelve a cargar la lista completa.
 
