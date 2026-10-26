@@ -118,7 +118,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-20
   Hecho cuando: con una herramienta de peticiones (curl o similar) se comprueba: válida → 201 y queda en MongoDB; campos inválidos → 422 con todos los `details`; choque → 409 `OVERLAP` con `conflicts`; idéntica → 409 `DUPLICATE_OVERLAP`; MongoDB apagado → 503 y no queda nada guardado; un cuerpo con una clave que empieza por `$` se rechaza con 400 `INVALID_BODY`; la ruta no contiene reglas de negocio, solo traduce el resultado del servicio.
 
-- [ ] **T-23 · Flujo de eventos (`eventHub` y `GET /api/events`)** (25 min) · RF-8.1
+- [x] **T-23 · Flujo de eventos (`eventHub` y `GET /api/events`)** (25 min) · RF-8.1
   Depende de: T-20
   Hecho cuando: una conexión abierta a `/api/events` (con curl o el navegador) permanece abierta, recibe un comentario periódico de mantenimiento, y `eventHub` elimina del registro a los clientes que se desconectan (comprobado cerrando la conexión y viendo que no hay error al emitir).
 

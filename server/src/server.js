@@ -4,6 +4,8 @@ import { connect } from "./db/connection.js";
 import * as repository from "./repositories/activityRepository.js";
 import { createActivityService } from "./services/activityService.js";
 import { createActivitiesRouter } from "./routes/activitiesRoutes.js";
+import { createEventsRouter } from "./routes/eventsRoutes.js";
+import { createEventHub } from "./events/eventHub.js";
 
 if (existsSync(".env")) process.loadEnvFile(".env");
 
@@ -21,6 +23,13 @@ try {
 // One service for the whole process, so every request shares the same write queue.
 const activityService = createActivityService({ repository });
 
-createApp({ routers: [["/api", createActivitiesRouter(activityService)]] }).listen(PORT, () => {
+const eventHub = createEventHub();
+
+createApp({
+  routers: [
+    ["/api", createActivitiesRouter(activityService)],
+    ["/api", createEventsRouter(eventHub)],
+  ],
+}).listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
