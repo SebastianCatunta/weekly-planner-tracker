@@ -1,0 +1,213 @@
+:root {
+  --row-height: 48px;
+  --axis-width: 56px;
+  --line: #d9d9d9;
+  --header-bg: #f3f3f3;
+  --text: #1f1f1f;
+  --muted: #5f5f5f;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+}
+
+body {
+  margin: 0;
+}
+
+.app-header {
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.app-main {
+  padding: 12px 16px;
+}
+
+/* Weekly grid (RF-1.x, RF-5.4) */
+.weekly-grid {
+  min-width: 0;
+}
+
+.grid-scroll {
+  height: calc(100vh - 120px);
+  min-height: 240px;
+  overflow: auto;
+  border: 1px solid var(--line);
+}
+
+.grid-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: var(--axis-width) repeat(7, minmax(110px, 1fr));
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.grid-corner,
+.day-name {
+  padding: 8px 4px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.grid-body {
+  display: grid;
+  grid-template-columns: var(--axis-width) repeat(7, minmax(110px, 1fr));
+  position: relative;
+}
+
+.time-axis {
+  position: relative;
+}
+
+.hour-label {
+  box-sizing: border-box;
+  padding: 2px 6px 0 0;
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.hour-label-end {
+  position: absolute;
+  bottom: -8px;
+  right: 0;
+  padding-right: 6px;
+}
+
+.day-column {
+  position: relative;
+  border-left: 1px solid var(--line);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--line) 0,
+    var(--line) 1px,
+    transparent 1px,
+    transparent var(--row-height)
+  );
+}
+
+/* Activity blocks (RF-5.x) */
+.activity-block {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 1px 4px;
+  border: 1px solid #8a8a8a;
+  border-radius: 3px;
+  background: #ffffff;
+  font-size: 0.75rem;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.activity-name {
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.activity-category,
+.activity-hours {
+  color: var(--muted);
+  margin-right: 6px;
+}
+
+/* Layout and form (RF-2.x) */
+.app-layout {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.app-layout .weekly-grid {
+  flex: 1;
+}
+
+.activity-form {
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activity-form h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.activity-form label,
+.activity-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.9rem;
+}
+
+.activity-form input,
+.activity-form select,
+.activity-form button {
+  font: inherit;
+  padding: 4px 6px;
+}
+
+.time-select {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Save status and toast (RF-2.4, RF-2.5) */
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.save-status-saving {
+  animation: spin 1s linear infinite;
+}
+
+.save-status-saved {
+  color: #1a7f37;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.toast {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid #1a7f37;
+  border-radius: 4px;
+  background: #e8f5ec;
+}
+
+/* Rejections (RF-3.10, RF-3.11, RF-4.x) */
+.form-errors {
+  padding: 8px 10px;
+  border: 1px solid #b42318;
+  border-radius: 4px;
+  background: #fdecea;
+  font-size: 0.9rem;
+}
+
+.form-errors ul {
+  margin: 0 0 6px;
+  padding-left: 18px;
+}
+
+.form-errors p {
+  margin: 0;
+  font-weight: 600;
+}
