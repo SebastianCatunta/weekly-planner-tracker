@@ -5,6 +5,7 @@ const DEFAULT_TIMEOUT_MS = 5000;
 const DEFAULT_DB_NAME = "weekly_planner";
 
 let client = null;
+let connecting = null;
 let dbName = DEFAULT_DB_NAME;
 
 // 001/RF-7.1
@@ -16,6 +17,14 @@ export async function connect({
   database = DEFAULT_DB_NAME,
 } = {}) {
   if (client) return getDb();
+  // Requests that arrive while a connection is being opened share it instead of opening another.
+  connecting ??= open({ uri, timeoutMs, database }).finally(() => {
+    connecting = null;
+  });
+  return connecting;
+}
+
+async function open({ uri, timeoutMs, database }) {
   if (!uri) throw new DatabaseUnavailableError();
 
   let candidate;

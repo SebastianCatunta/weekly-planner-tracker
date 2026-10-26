@@ -1,12 +1,14 @@
 import { ObjectId } from "mongodb";
-import { getDb, toDatabaseError } from "../db/connection.js";
+import { connect, toDatabaseError } from "../db/connection.js";
 import { DataCorruptError } from "../db/errors.js";
 import { DAYS, validateActivity, formatMinutes } from "../core/index.js";
 
 const COLLECTION = "activities";
 
-function activities() {
-  return getDb().collection(COLLECTION);
+// Connects on first use and reconnects after a failure, so the server can start with MongoDB off
+// and recover when it comes back. Throws DatabaseUnavailableError if it cannot connect.
+async function activities() {
+  return (await connect()).collection(COLLECTION);
 }
 
 // Maps a stored document to a plain record; the Mongo _id never leaves this module.
@@ -25,7 +27,7 @@ function toRecord(doc) {
 // 001/RF-4.1, 001/RF-5.2
 export async function ensureIndexes() {
   try {
-    await activities().createIndex({ day: 1, startMinute: 1 });
+    await (await activities()).createIndex({ day: 1, startMinute: 1 });
   } catch (error) {
     throw toDatabaseError(error);
   }
@@ -44,7 +46,7 @@ export async function insert(activity) {
     createdAt: activity.createdAt ?? new Date(),
   };
   try {
-    await activities().insertOne(doc);
+    await (await activities()).insertOne(doc);
   } catch (error) {
     throw toDatabaseError(error);
   }
@@ -56,7 +58,8 @@ export async function insert(activity) {
 // { "$ne": "monday" } can never act as an operator, it is only compared as text.
 export async function findByDay(day) {
   try {
-    const docs = await activities()
+    const collection = await activities();
+    const docs = await collection
       .find({ day: { $eq: String(day) } })
       .sort({ startMinute: 1 })
       .toArray();
@@ -97,7 +100,7 @@ export function parseStoredActivities(docs) {
 export async function findAll() {
   let docs;
   try {
-    docs = await activities().find({}).toArray();
+    docs = await (await activities()).find({}).toArray();
   } catch (error) {
     throw toDatabaseError(error);
   }

@@ -106,7 +106,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
 
 ## Fase 4: API HTTP
 
-- [ ] **T-20 · Aplicación Express base** (20 min) · RF-7 (base)
+- [x] **T-20 · Aplicación Express base** (20 min) · RF-7 (base)
   Depende de: T-19
   Hecho cuando: `server.js` arranca la aplicación con lectura de JSON; un cuerpo mal formado en cualquier ruta responde 400 `INVALID_BODY` y un fallo no controlado responde 500 `INTERNAL`, ambos con la forma `{ "error": { "code": ... } }` y sin mostrar detalles internos.
 
