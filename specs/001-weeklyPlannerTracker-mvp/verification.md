@@ -39,3 +39,18 @@ Ventana de 1280 × 700 para que la cuadrícula (1152 px) no cupiera y hubiera sc
 | Actividad de 1 minuto: el nombre se lee | 5.4 | Correcto | Bloque de 20 px, nombre de 38 × 16 px, cuadrícula de 1152 px |
 
 **Hallazgo:** con la sincronización de pestañas (T-38) la actividad puede aparecer en la pestaña que registra un instante antes de que le llegue la respuesta 201, porque el evento del servidor y la respuesta salen a la vez. No contradice RF-7.2: el evento se emite solo después de guardar en MongoDB, así que nunca se muestra algo que no esté guardado. La comprobación se hizo reteniendo la petición en el navegador, que es lo que prueba que la pantalla no se adelanta.
+
+## T-41 · Choques, concurrencia y persistencia
+
+| Comprobación | RF | Resultado | Evidencia |
+|---|---|---|---|
+| Un choque con dos actividades nombra ambas | 4.1 | Correcto | "El horario choca con otras actividades: "Reunión A" (10:00 a 11:00), "Reunión B" (11:30 a 12:30)." |
+| La actividad rechazada no se guarda | 4.1 | Correcto | No está en la base de datos |
+| Una actividad que empieza justo cuando otra termina se acepta | 4.2 | Correcto | "Contigua" guardada entre las 11:00 y las 11:30 |
+| Doble clic rápido: queda una sola | 4.4 | Correcto | Dos clics en el mismo instante, una copia guardada |
+| La segunda se informa como duplicado y solapamiento, pidiendo verificar | 4.4 | Correcto | "Esta actividad es un duplicado y además se solapa con "Doble" (08:00 a 09:00). Verifica en el horario semanal si ya está registrada." |
+| La cuadrícula muestra la actividad una sola vez | 4.4 | Correcto | Un bloque con ese nombre |
+| Dos navegadores con choque simultáneo: queda la primera | 4.5 | Correcto | Se guardó "Navegador A"; el otro navegador recibió "…choca con…"Navegador A" (10:00 a 11:00)" |
+| Cerrar y volver a abrir el navegador muestra el mismo horario | 6.1, 6.3 | Correcto | Perfil nuevo: 8 actividades en pantalla, 8 en la base de datos |
+| Abrir como otro cliente muestra el mismo horario, sin usuario ni sesión | 6.1, 6.3 | Correcto | Perfil nuevo y otro origen: 8 de 8 (ver los límites al inicio) |
+| Las actividades no llevan usuario ni semana | 6.2 | Correcto | Campos: `id`, `name`, `category`, `day`, `start`, `end`, `startMinute`, `endMinute` |

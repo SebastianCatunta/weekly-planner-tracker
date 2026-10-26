@@ -198,7 +198,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-39
   Hecho cuando: se ejecutan y se marcan como correctas las comprobaciones de interfaz de la sección 9.4 del plan (pantalla inicial, formulario vacío, hora inválida imposible, registro válido con iconos y mensaje de 5 s, varios errores a la vez).
 
-- [ ] **T-41 · Verificación manual, choques, concurrencia y persistencia** (30 min) · RF-4.1 a 4.5, RF-6.1 a 6.3
+- [x] **T-41 · Verificación manual, choques, concurrencia y persistencia** (30 min) · RF-4.1 a 4.5, RF-6.1 a 6.3
   Depende de: T-39
   Hecho cuando: se comprueban y marcan: choque con dos actividades nombra ambas; doble clic deja una sola y la segunda se informa como duplicado y solapamiento; dos navegadores con choque simultáneo dejan la primera; cerrar y reabrir el navegador, y abrir desde otro equipo, muestra el mismo horario.
 
