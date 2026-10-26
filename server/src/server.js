@@ -1,7 +1,9 @@
 import { existsSync } from "node:fs";
 import { createApp } from "./app.js";
 import { connect } from "./db/connection.js";
-import { ensureIndexes } from "./repositories/activityRepository.js";
+import * as repository from "./repositories/activityRepository.js";
+import { createActivityService } from "./services/activityService.js";
+import { createActivitiesRouter } from "./routes/activitiesRoutes.js";
 
 if (existsSync(".env")) process.loadEnvFile(".env");
 
@@ -11,11 +13,14 @@ const PORT = Number(process.env.PORT) || 3001;
 // database is used again as soon as it is reachable.
 try {
   await connect();
-  await ensureIndexes();
+  await repository.ensureIndexes();
 } catch {
   console.warn("MongoDB is not available yet; requests will answer 503 until it is.");
 }
 
-createApp().listen(PORT, () => {
+// One service for the whole process, so every request shares the same write queue.
+const activityService = createActivityService({ repository });
+
+createApp({ routers: [["/api", createActivitiesRouter(activityService)]] }).listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });

@@ -110,7 +110,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-19
   Hecho cuando: `server.js` arranca la aplicación con lectura de JSON; un cuerpo mal formado en cualquier ruta responde 400 `INVALID_BODY` y un fallo no controlado responde 500 `INTERNAL`, ambos con la forma `{ "error": { "code": ... } }` y sin mostrar detalles internos.
 
-- [ ] **T-21 · `GET /api/activities`** (20 min) · RF-1.1, RF-5.1, RF-5.2, RF-6.1, RF-6.3, RF-7.4
+- [x] **T-21 · `GET /api/activities`** (20 min) · RF-1.1, RF-5.1, RF-5.2, RF-6.1, RF-6.3, RF-7.4
   Depende de: T-20
   Hecho cuando: con datos devuelve 200 `{ "activities": [...] }` ordenadas; sin datos devuelve 200 con lista vacía; con MongoDB apagado devuelve 503 `DB_UNAVAILABLE`; con un documento inválido devuelve 500 `DATA_CORRUPT`.
 
