@@ -202,7 +202,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-39
   Hecho cuando: se comprueban y marcan: choque con dos actividades nombra ambas; doble clic deja una sola y la segunda se informa como duplicado y solapamiento; dos navegadores con choque simultáneo dejan la primera; cerrar y reabrir el navegador, y abrir desde otro equipo, muestra el mismo horario.
 
-- [ ] **T-42 · Verificación manual, fallos y varias pestañas** (25 min) · RF-7.1 a 7.4, RF-8.1
+- [x] **T-42 · Verificación manual, fallos y varias pestañas** (25 min) · RF-7.1 a 7.4, RF-8.1
   Depende de: T-39
   Hecho cuando: se comprueban y marcan: MongoDB apagado al registrar (mensaje exacto, campos conservados, actividad ausente); MongoDB apagado al recargar (aviso de error, no cuadrícula vacía); dos pestañas sincronizadas sin recargar.
 

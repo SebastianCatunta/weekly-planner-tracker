@@ -54,3 +54,30 @@ Ventana de 1280 × 700 para que la cuadrícula (1152 px) no cupiera y hubiera sc
 | Cerrar y volver a abrir el navegador muestra el mismo horario | 6.1, 6.3 | Correcto | Perfil nuevo: 8 actividades en pantalla, 8 en la base de datos |
 | Abrir como otro cliente muestra el mismo horario, sin usuario ni sesión | 6.1, 6.3 | Correcto | Perfil nuevo y otro origen: 8 de 8 (ver los límites al inicio) |
 | Las actividades no llevan usuario ni semana | 6.2 | Correcto | Campos: `id`, `name`, `category`, `day`, `start`, `end`, `startMinute`, `endMinute` |
+
+## T-42 · Fallos y varias pestañas
+
+Para apagar MongoDB se arrancó el servidor con una dirección inalcanzable; el servidor responde, pero sin base de datos.
+
+| Comprobación | RF | Resultado | Evidencia |
+|---|---|---|---|
+| Registrar con MongoDB apagado: mensaje exacto y petición de reintentar | 7.1 | Correcto | "No se pudo guardar por fallas de conexión" e "Intenta de nuevo." |
+| Los cinco campos se conservan | 7.3 | Correcto | Nombre, categoría, día, inicio y fin intactos |
+| La actividad no aparece en el horario | 7.2 | Correcto | Ningún bloque con ese nombre |
+| Con MongoDB otra vez encendido, reintentar desde el mismo formulario guarda la actividad | 7.3 | Correcto | Actividades en la base de datos: 9 → 10 |
+| Recargar con MongoDB apagado: aviso de error, no una cuadrícula vacía | 7.4 | Correcto | "Ocurrió un fallo del sistema al cargar tus actividades, intenta de nuevo en 1 minuto." y sin cuadrícula |
+| Mientras cargan, se muestra "Cargando tus actividades" | 7.4 | Correcto | Con la petición retenida en el navegador: el mensaje se ve y no hay cuadrícula |
+| Un documento inválido en la base de datos hace fallar la carga, sin lista parcial | 7.4 | Correcto | Documento con fin anterior al inicio: aviso de error y sin cuadrícula; el documento se borró después |
+| Registrar en una pestaña y verla aparecer en la otra sin recargar | 8.1 | Correcto | La otra pestaña la mostró a los 64 ms, sin recargar |
+| La pestaña que registró la muestra una sola vez | 8.1 | Correcto | Un bloque |
+
+### Datos enviados sin pasar por el formulario (herramienta externa)
+
+Peticiones `curl` directas al servidor.
+
+| Envío | RF | Resultado |
+|---|---|---|
+| Día inexistente (`funday`) | 3.9 | 422 `DAY_INVALID` |
+| Hora `25:99` | 3.9 | 422 `TIME_INVALID` |
+| Nombre con `<script>` | 3.8, 3.9 | 422 `TEXT_NOT_ALLOWED` |
+| Cuerpo con una clave que empieza por `$` | RNF-9 | 400 `INVALID_BODY` |
