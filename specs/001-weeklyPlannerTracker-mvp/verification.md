@@ -81,3 +81,27 @@ Peticiones `curl` directas al servidor.
 | Hora `25:99` | 3.9 | 422 `TIME_INVALID` |
 | Nombre con `<script>` | 3.8, 3.9 | 422 `TEXT_NOT_ALLOWED` |
 | Cuerpo con una clave que empieza por `$` | RNF-9 | 400 `INVALID_BODY` |
+
+## Casos límite de la sección 6 de la spec
+
+Comprobados enviando peticiones directas al servidor (criterio de finalización 3). Los datos con tildes, ñ y emoji se enviaron desde un programa en Node, no desde la línea de comandos de Windows, que los altera antes de que lleguen al servidor.
+
+| Caso | Resultado |
+|---|---|
+| Espacios de más en nombre y categoría | Se normalizan: `"  Leer    libro "` se guarda como `Leer libro` |
+| Nombre solo con espacios | 422 `NAME_REQUIRED` |
+| 31 caracteres | 422 `NAME_TOO_LONG`; 30 caracteres se aceptan |
+| De 23:59 a 00:00 | 201 (fin del día, `endMinute` 1440) |
+| De 00:00 a 00:00 | 201, día completo (`startMinute` 0, `endMinute` 1440) |
+| De 23:00 a 01:00 (cruza la medianoche) | 422 `END_NOT_AFTER_START` |
+| Hora de fin igual a la de inicio | 422 `END_NOT_AFTER_START` |
+| Actividades contiguas | Se aceptan (ver T-41) |
+| Mismo nombre en otro día | Se acepta |
+| "Estudio" y "estudio" | Son categorías distintas: con igual nombre y horario el choque se informa como `OVERLAP`, no como duplicado |
+| Actividad de 1 minuto | 201 |
+| Tildes, ñ y emoji | Se aceptan y se guardan idénticos (mismos puntos de código al leerlos) |
+| Varios campos ausentes | 422 con todos los `details` a la vez |
+| Doble clic, choques simultáneos, pestaña con datos viejos, primer uso sin actividades, fallos de conexión, carga parcial | Ver T-40, T-41 y T-42 |
+| Texto que intenta vulnerar la seguridad, datos que llegan sin pasar por el formulario | Ver T-42 |
+
+El caso "recarga o salida con el formulario a medio llenar: el borrador se pierde" es el comportamiento por defecto de la aplicación, que no guarda borradores.
