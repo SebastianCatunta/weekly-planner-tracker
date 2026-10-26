@@ -146,7 +146,7 @@ Derivadas de [spec.md](spec.md) y [plan.md](plan.md). Cada tarea dura 20-30 min 
   Depende de: T-27
   Hecho cuando: el hook expone los estados `loading`, `ready` y `failed` con la lista; con el servidor apagado pasa a `failed` y la lista no se presenta como válida, y mientras carga se ve "Cargando tus actividades" (comprobado con un componente de prueba que muestra el estado).
 
-- [ ] **T-29 · `WeeklyGrid` base** (30 min) · RF-1.1 a 1.5
+- [x] **T-29 · `WeeklyGrid` base** (30 min) · RF-1.1 a 1.5
   Depende de: T-26
   Hecho cuando: la pantalla muestra 7 columnas de lunes a domingo con el nombre de cada día (sin fechas), 24 filas de hora de 00:00 a 24:00 de al menos 48 px cada una (1152 px en total), que se desplaza con scroll, y vacía no muestra textos de ayuda.
 
